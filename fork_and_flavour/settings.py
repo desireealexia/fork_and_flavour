@@ -31,7 +31,7 @@ DEBUG = False
 
 ALLOWED_HOSTS = [
     '127.0.0.1',
-    '.herokuapp.com',
+    '.herokuapp.com'
 ]
 
 # Application definition
@@ -85,6 +85,9 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'fork_and_flavour.wsgi.application'
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://*.herokuapp.com"
+]
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
