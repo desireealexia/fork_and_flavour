@@ -1,1 +1,1 @@
-web: gunicorn codestar.wsgi
+web: gunicorn fork_and_flavour.wsgi
