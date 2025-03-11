@@ -1,0 +1,68 @@
+body {
+    background-color: #F9F9F9; /* Soft neutral background */
+    color: #333; /* General text color for readability */
+    font-family: 'Open Sans', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2, h3 {
+    font-family: 'Montserrat', sans-serif;
+    color: #1F4F31; /* Emerald green for headings */
+    margin-bottom: 1rem;
+}
+
+p, a, li {
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+.navbar {
+    background-color: #1F4F31; /* Emerald green for navigation */
+}
+
+.navbar-brand, .nav-link {
+    color: #fff !important;
+    font-weight: bold;
+}
+
+.btn-primary {
+    background-color: #B13F26; /* Muted orange for key CTAs */
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #5B122A; /* Deep burgundy for hover */
+}
+
+.btn-success {
+    background-color: #1F4F31; /* Emerald green for secondary CTAs */
+}
+
+.btn-success:hover {
+    background-color: #5B122A; /* Deep burgundy for hover */
+}
+
+footer {
+    background-color: #1F4F31;
+    color: #fff;
+    padding: 1rem 0;
+}
+
+.card {
+    border: none;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+    border-radius: 12px;
+}
+
+.card:hover {
+    transform: scale(1.03); /* Slight scale effect for interactivity */
+    transition: 0.3s ease-in-out;
+}
+
+.recipe-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px 0;
+}

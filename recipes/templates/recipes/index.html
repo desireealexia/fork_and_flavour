@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Fork & Flavour{% endblock %}
+
+{% block content %}
+<div class="text-center mt-5">
+    <h1>Welcome to Fork & Flavour!</h1>
+    <p class="lead">Discover, create, and share delicious recipes with ease.</p>
+
+    {% if user.is_authenticated %}
+        <a href="#" class="btn btn-primary btn-lg">View My Recipes</a>
+    {% else %}
+        <a href="#" class="btn btn-success btn-lg">Get Started</a>
+        <a href="#" class="btn btn-outline-primary btn-lg ms-2">Login</a>
+    {% endif %}
+</div>
+{% endblock %}
