@@ -75,4 +75,3 @@ class RecipeTag(models.Model):
 
     def __str__(self):
         return f"{self.recipe.title} tagged with {self.tag.name}"
-    
