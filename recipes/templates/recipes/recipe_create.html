@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}Create Recipe - Fork & Flavour{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="text-center mb-4">Create a New Recipe</h1>
+    
+    <form method="POST" enctype="multipart/form-data" class="recipe-form">
+        {% csrf_token %}
+        
+        <div class="mb-3">
+            <label for="title" class="form-label">Recipe Title</label>
+            {{ form.title }}
+        </div>
+        
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            {{ form.description }}
+        </div>
+        
+        <div class="mb-3">
+            <label for="image" class="form-label">Upload Image</label>
+            {{ form.image }}
+        </div>
+
+        <div class="mb-3">
+            <label for="ingredients" class="form-label">Ingredients (One per line)</label>
+            {{ form.ingredients }}
+        </div>
+
+        <div class="mb-3">
+            <label for="instructions" class="form-label">Preparation Steps</label>
+            {{ form.instructions }}
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">Submit Recipe</button>
+    </form>
+</div>
+{% endblock %}

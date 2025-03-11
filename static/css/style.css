@@ -66,3 +66,59 @@ footer {
     gap: 20px;
     padding: 20px 0;
 }
+
+/* ---------------------------------------------------------------- */
+.recipe-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px 0;
+}
+
+.card {
+    background-color: #fff;
+    border: 2px solid #1F4F31; /* Emerald green border for visual identity */
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+}
+
+.card:hover {
+    transform: scale(1.03); /* Interactive hover effect */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15); 
+}
+
+.card img {
+    width: 100%;
+    height: 200px; /* Fixed height for consistent image display */
+    object-fit: cover; /* Ensures images maintain aspect ratio */
+}
+
+.card-body {
+    padding: 15px;
+}
+
+.card-title {
+    font-family: 'Montserrat', sans-serif;
+    color: #1F4F31; /* Emerald green for titles */
+    font-weight: bold;
+}
+
+.card-text {
+    color: #666;
+    font-size: 0.95rem;
+    margin-bottom: 15px;
+}
+
+.btn-primary {
+    background-color: #B13F26; /* Muted orange for CTAs */
+    border: none;
+    width: 100%;
+}
+
+.btn-primary:hover {
+    background-color: #5B122A; /* Deep burgundy for hover effect */
+}
+
+/* ---------------------------------------------------------------- */
