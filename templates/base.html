@@ -1,6 +1,7 @@
 {% load static %}
 
 {% url 'home' as home_url %}
+{% url 'profile' as profile_url %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -34,7 +35,9 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
-            <a class="navbar-brand" href="{% url 'home' %}">Fork & Flavour</a>
+            <a class="navbar-brand" href="{% url 'home' %}">
+                <img src="{% static 'images/fork_and_flavour_logo.png' %}" alt="Fork & Flavour Logo" width="50">
+                Fork & Flavour</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -42,7 +45,10 @@
                 <ul class="navbar-nav ms-auto">
                     {% if user.is_authenticated %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'recipe_list' %}">My Recipes</a>
+                            <a class="nav-link" class="nav-link {% if request.path == about_url %}active{%endif%}" href="{% url 'recipe_list' %}">My Recipes</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" class="nav-link {% if request.path == about_url %}active{%endif%}" href="{% url 'profile' %}">My Profile</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Logout</a>
