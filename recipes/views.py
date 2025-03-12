@@ -1,8 +1,8 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import generic
-from django.views.generic import CreateView, DetailView, ListView, UpdateView
+from django.views.generic import CreateView, ListView, UpdateView
 from .models import Recipe
 
 # Create your views here.
@@ -27,10 +27,30 @@ class RecipeCreateView(LoginRequiredMixin, CreateView):
         return reverse_lazy('recipe_detail', kwargs={'slug': self.object.slug})
 
 # View to display the details of a single recipe
-class RecipeDetailView(DetailView):
-    model = Recipe
-    template_name = 'recipe_detail.html'
-    context_object_name = 'recipe'
+def recipe_detail(request, slug):
+    """
+    Display an individual :model:`recipes.Recipe`.
+
+    **Context**
+
+    ``post``
+        An instance of :model:`recipes.Recipe`.
+
+    **Template:**
+
+    :template:`blog/post_detail.html`
+    """
+
+    queryset = Recipe.objects.filter(status=1)
+    recipe = get_object_or_404(queryset, slug=slug)
+    ingredients = recipe.ingredients.all() 
+
+    return render(
+        request,
+        "recipes/recipe_detail.html",
+        {"recipe": recipe,
+         "ingredients": ingredients},
+    )
     
 # View to list all recipes
 class UserRecipeListView(LoginRequiredMixin, ListView):

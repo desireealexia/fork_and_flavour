@@ -2,7 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 from fractions import Fraction
 
-
 STATUS = ((0, "Draft"), (1, "Published"))
 
 # Create your models here.
@@ -19,7 +18,7 @@ class Recipe(models.Model):
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
     description = models.TextField()
     instructions = models.TextField()
-    image = models.ImageField(upload_to='media/', blank=True, null=True)
+    image = models.ImageField(upload_to='recipes/', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     status = models.IntegerField(choices=STATUS, default=0)
     
