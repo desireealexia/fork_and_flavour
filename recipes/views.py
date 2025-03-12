@@ -1,9 +1,12 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.forms import inlineformset_factory
 from django.shortcuts import render, redirect, get_object_or_404
+from django.utils.text import slugify
 from django.urls import reverse_lazy
 from django.views import generic
 from django.views.generic import CreateView, ListView, UpdateView
-from .models import Recipe
+from .models import Recipe, RecipeIngredient
+from .forms import RecipeForm, RecipeIngredientForm
 
 # Create your views here.
 class RecipeList(generic.ListView):
@@ -12,19 +15,29 @@ class RecipeList(generic.ListView):
     paginate_by = 6
 
 # View to create a recipe (only for logged-in users)
-class RecipeCreateView(LoginRequiredMixin, CreateView):
-    model = Recipe
-    template_name = 'recipe_create.html'
-    fields = ['title', 'slug', 'category', 'description', 'instructions', 'image', 'status']
+def create_recipe(request):
+    context = {}
     
-    # Automatically assign the user to the recipe
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        return super().form_valid(form)
+    form = RecipeForm(request.POST or None)
     
-    # Redirect to the recipe detail page after successful creation
-    def get_success_url(self):
-        return reverse_lazy('recipe_detail', kwargs={'slug': self.object.slug})
+    RecipeIngredientFormSet = inlineformset_factory(Recipe, RecipeIngredient, form=RecipeIngredientForm, extra=1)
+    ingredient_formset = RecipeIngredientFormSet(request.POST or None)
+    
+    if form.is_valid() and ingredient_formset.is_valid():
+        recipe = form.save(commit=False)
+        recipe.user = request.user
+        recipe.save()
+        
+        for ingredient_form in ingredient_formset:
+            ingredient = ingredient_form.save(commit=False)
+            ingredient.recipe = recipe  # Associate the ingredient with the recipe
+            ingredient.save()
+            
+        return redirect('recipe_detail', slug=recipe.slug)
+        
+    context['form'] = form
+    context['ingredient_formset'] = ingredient_formset
+    return render(request, "recipes/recipe_create.html", context)
 
 # View to display the details of a single recipe
 def recipe_detail(request, slug):

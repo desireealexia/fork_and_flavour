@@ -20,7 +20,19 @@ class Recipe(models.Model):
     instructions = models.TextField()
     image = models.ImageField(upload_to='recipes/', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    status = models.IntegerField(choices=STATUS, default=0)
+    DRAFT = 'draft'
+    PUBLISHED = 'published'
+    
+    STATUS_CHOICES = [
+        (DRAFT, 'Draft'),
+        (PUBLISHED, 'Published'),
+    ]
+    
+    status = models.CharField(
+        max_length=10,
+        choices=STATUS_CHOICES,
+        default=DRAFT,
+    )
     
     def __str__(self):
         return self.title

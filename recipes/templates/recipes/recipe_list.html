@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block title %}My Recipes - Fork & Flavour{% endblock %}
 
 {% block content %}
@@ -20,7 +22,7 @@
             {% endfor %}
         </div>
     {% else %}
-        <p class="text-center">You haven't added any recipes yet. <a href="#">Create one now!</a></p>
+        <p class="text-center">You haven't added any recipes yet. <a href="{% url 'recipe_create' %}">Create one now!</a></p>
     {% endif %}
 </div>
 {% endblock %}
