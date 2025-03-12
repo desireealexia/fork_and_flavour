@@ -1,9 +1,13 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
 body {
     background-color: #F9F9F9; /* Soft neutral background */
     color: #333; /* General text color for readability */
     font-family: 'Open Sans', sans-serif;
-    margin: 0;
-    padding: 0;
 }
 
 h1, h2, h3 {
@@ -44,6 +48,10 @@ p, a, li {
 }
 
 footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
     background-color: #1F4F31;
     color: #fff;
     padding: 1rem 0;
