@@ -11,6 +11,12 @@ class Category(models.Model):
     def __str__(self):
         return self.name
     
+class Ingredient(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+
+    def __str__(self):
+        return self.name
+    
 class Recipe(models.Model):
     title = models.CharField(max_length=200, unique=True)
     slug = models.SlugField(max_length=200, unique=True)
@@ -19,29 +25,11 @@ class Recipe(models.Model):
     description = models.TextField()
     instructions = models.TextField()
     image = models.ImageField(upload_to='recipes/', blank=True, null=True)
+    status = models.IntegerField(choices=STATUS, default=0)   
     created_at = models.DateTimeField(auto_now_add=True)
-    DRAFT = 'draft'
-    PUBLISHED = 'published'
-    
-    STATUS_CHOICES = [
-        (DRAFT, 'Draft'),
-        (PUBLISHED, 'Published'),
-    ]
-    
-    status = models.CharField(
-        max_length=10,
-        choices=STATUS_CHOICES,
-        default=DRAFT,
-    )
-    
+    updated_at = models.DateTimeField(auto_now=True) 
     def __str__(self):
         return self.title
-    
-class Ingredient(models.Model):
-    name = models.CharField(max_length=100, unique=True)
-
-    def __str__(self):
-        return self.name
     
 class RecipeIngredient(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name='ingredients')

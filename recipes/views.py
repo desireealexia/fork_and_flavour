@@ -1,44 +1,23 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 from django.forms import inlineformset_factory
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.text import slugify
 from django.urls import reverse_lazy
 from django.views import generic
-from django.views.generic import CreateView, ListView, UpdateView
-from .models import Recipe, RecipeIngredient
-from .forms import RecipeForm, RecipeIngredientForm
+from django.views.generic import CreateView, ListView, DetailView, UpdateView
+
+from . import models
 
 # Create your views here.
-class RecipeList(generic.ListView):
-    queryset = Recipe.objects.filter(status=1).order_by('-created_at')
+
+# View to list all recipes on index.html
+class RecipeListView(generic.ListView):
+    model = models.Recipe
     template_name = "recipes/index.html"
+    queryset = models.Recipe.objects.filter(status=1).order_by('-created_at')
     paginate_by = 6
-
-# View to create a recipe (only for logged-in users)
-def create_recipe(request):
-    context = {}
     
-    form = RecipeForm(request.POST or None)
-    
-    RecipeIngredientFormSet = inlineformset_factory(Recipe, RecipeIngredient, form=RecipeIngredientForm, extra=1)
-    ingredient_formset = RecipeIngredientFormSet(request.POST or None)
-    
-    if form.is_valid() and ingredient_formset.is_valid():
-        recipe = form.save(commit=False)
-        recipe.user = request.user
-        recipe.save()
-        
-        for ingredient_form in ingredient_formset:
-            ingredient = ingredient_form.save(commit=False)
-            ingredient.recipe = recipe  # Associate the ingredient with the recipe
-            ingredient.save()
-            
-        return redirect('recipe_detail', slug=recipe.slug)
-        
-    context['form'] = form
-    context['ingredient_formset'] = ingredient_formset
-    return render(request, "recipes/recipe_create.html", context)
-
 # View to display the details of a single recipe
 def recipe_detail(request, slug):
     """
@@ -54,7 +33,7 @@ def recipe_detail(request, slug):
     :template:`blog/post_detail.html`
     """
 
-    queryset = Recipe.objects.filter(status=1)
+    queryset = models.Recipe.objects.filter(status=1)
     recipe = get_object_or_404(queryset, slug=slug)
     ingredients = recipe.ingredients.all() 
 
@@ -64,32 +43,68 @@ def recipe_detail(request, slug):
         {"recipe": recipe,
          "ingredients": ingredients},
     )
+
+class RecipeCreateView(CreateView):
+    model = models.Recipe
+    fields = ['title', 'category', 'description', 'instructions', 'image', 'status']
     
-# View to list all recipes
+    template_name = 'recipes/recipe_form.html'
+    success_url = reverse_lazy('home')
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.user = self.request.user
+        self.object.slug = slugify(self.object.title)
+        
+        instructions_text = form.cleaned_data['instructions'].strip()
+        instructions_list = instructions_text.split('\n')
+        formatted_instructions = ''.join(f'<li>{step.strip()}</li>' for step in instructions_list if step.strip())
+        self.object.instructions = f"<ol>{formatted_instructions}</ol>"
+    
+        self.object = form.save()
+
+        # Extract ingredient data from POST request
+        ingredient_names = self.request.POST.getlist('ingredient_name[]')
+        ingredient_quantities = self.request.POST.getlist('ingredient_quantity[]')
+        ingredient_units = self.request.POST.getlist('ingredient_unit[]')
+        ingredient_optionals = self.request.POST.getlist('ingredient_optional[]')
+
+        for i in range(len(ingredient_names)):
+            name = ingredient_names[i].strip()
+            quantity = ingredient_quantities[i].strip() or None
+            unit = ingredient_units[i].strip() or ''
+            is_optional = 'true' in ingredient_optionals[i:i+1]
+
+            # Create or get the ingredient
+            ingredient, created = models.Ingredient.objects.get_or_create(name=name)
+
+            # Create RecipeIngredient entry
+            models.RecipeIngredient.objects.create(
+                recipe=self.object,
+                ingredient=ingredient,
+                quantity=quantity,
+                unit=unit,
+                is_optional=is_optional
+            )
+
+        return redirect(self.success_url)
+ 
+@login_required
+def profile(request):
+    user_recipes = models.Recipe.objects.filter(user=request.user)
+    context = {
+        'user': request.user,
+        'recipes': user_recipes,
+    }
+    return render(request, 'recipes/profile.html', context)
+
+# View to list all recipes for a specific user
 class UserRecipeListView(LoginRequiredMixin, ListView):
-    model = Recipe
+    model = models.Recipe
     template_name = 'recipe_list.html'
     context_object_name = 'recipes'
-    queryset = Recipe.objects.all().order_by('-created_at')
+    queryset = models.Recipe.objects.all().order_by('-created_at')
     
     def get_queryset(self):
         # Only fetch recipes for the logged-in user
-        return Recipe.objects.filter(user=self.request.user)
-    
-# Recipe Edit View (Only for the recipe owner)
-class RecipeEditView(LoginRequiredMixin, UpdateView):
-    model = Recipe
-    template_name = 'recipes/recipe_edit.html'
-    fields = ['title', 'slug', 'category', 'description', 'instructions', 'image', 'status']
-    
-    # Check if the logged-in user is the owner of the recipe
-    def get_object(self, queryset=None):
-        obj = super().get_object(queryset)
-        if obj.user != self.request.user:
-            # Redirect to the recipe's detail page if the user is not the owner
-            return redirect('recipe_detail', slug=obj.slug)
-        return obj
-    
-    # Redirect to the recipe detail page after successful update
-    def get_success_url(self):
-        return reverse_lazy('recipe_detail', kwargs={'slug': self.object.slug})
+        return models.Recipe.objects.filter(user=self.request.user)

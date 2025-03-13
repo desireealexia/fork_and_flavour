@@ -1,9 +1,13 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
 body {
     background-color: #F9F9F9; /* Soft neutral background */
     color: #333; /* General text color for readability */
     font-family: 'Open Sans', sans-serif;
-    margin: 0;
-    padding: 0;
 }
 
 h1, h2, h3 {
@@ -44,9 +48,9 @@ p, a, li {
 }
 
 footer {
+    width: 100%;
     background-color: #1F4F31;
     color: #fff;
-    padding: 1rem 0;
 }
 
 .card {
@@ -122,3 +126,49 @@ footer {
 }
 
 /* ---------------------------------------------------------------- */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+th {
+    background-color: #f4f4f4;
+}
+button {
+    padding: 5px 10px;
+    cursor: pointer;
+    background-color: #f1f1f1;
+    border: 1px solid #ddd;
+}
+button:hover {
+    background-color: #ccc;
+}
+.remove-ingredient-btn {
+    background-color: red;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+.remove-ingredient-btn:hover {
+    background-color: darkred;
+}
+
+
+
+    .drag-handle {
+        cursor: grab;
+        font-size: 1.2rem;
+        user-select: none;  /* Prevent text selection while dragging */
+    }
+
+    .ingredient-item {
+        border: 1px solid #ddd;
+        padding: 8px;
+        border-radius: 8px;
+        background-color: #f8f9fa;
+        margin-bottom: 8px;
+        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    }

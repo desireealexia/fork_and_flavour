@@ -12,11 +12,15 @@
         <div class="recipe-list">
             {% for recipe in recipes %}
                 <div class="card">
-                    <img src="{{ recipe.image.url }}" class="card-img-top" alt="{{ recipe.title }}">
+                    {% if recipe.image %}
+                        <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}">
+                    {% else %}
+                        <img src="{% static 'images/default-recipe.jpg' %}" alt="Default Recipe Image">
+                    {% endif %}
                     <div class="card-body">
                         <h5 class="card-title">{{ recipe.title }}</h5>
                         <p class="card-text">{{ recipe.description|truncatewords:20 }}</p>
-                        <a href="#" class="btn btn-primary">View Recipe</a>
+                        <a href="{% url 'recipe_detail' recipe.slug %}" class="btn btn-primary">View Recipe</a>
                     </div>
                 </div>
             {% endfor %}

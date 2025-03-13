@@ -155,3 +155,20 @@ button:hover {
 .remove-ingredient-btn:hover {
     background-color: darkred;
 }
+
+
+
+    .drag-handle {
+        cursor: grab;
+        font-size: 1.2rem;
+        user-select: none;  /* Prevent text selection while dragging */
+    }
+
+    .ingredient-item {
+        border: 1px solid #ddd;
+        padding: 8px;
+        border-radius: 8px;
+        background-color: #f8f9fa;
+        margin-bottom: 8px;
+        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    }
