@@ -1,11 +1,11 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.decorators import login_required
 from django.forms import inlineformset_factory
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.text import slugify
 from django.urls import reverse_lazy
 from django.views import generic
-from django.views.generic import CreateView, ListView, DetailView, UpdateView
+from django.views.generic import CreateView, ListView, UpdateView, DeleteView
 
 from . import models
 
@@ -44,7 +44,7 @@ def recipe_detail(request, slug):
          "ingredients": ingredients},
     )
 
-class RecipeCreateView(CreateView):
+class RecipeCreateView(LoginRequiredMixin, CreateView):
     model = models.Recipe
     fields = ['title', 'category', 'description', 'instructions', 'image', 'status']
     
@@ -88,6 +88,63 @@ class RecipeCreateView(CreateView):
             )
 
         return redirect(self.success_url)
+    
+class RecipeUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = models.Recipe
+    fields = ['title', 'category', 'description', 'instructions', 'image', 'status']
+    
+    template_name = 'recipes/recipe_form.html'
+    success_url = reverse_lazy('home')
+    
+    def test_func(self):
+        recipe = self.get_object()
+        return self.request.user == recipe.user
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.user = self.request.user
+        self.object.slug = slugify(self.object.title)
+        
+        instructions_text = form.cleaned_data['instructions'].strip()
+        instructions_list = instructions_text.split('\n')
+        formatted_instructions = ''.join(f'<li>{step.strip()}</li>' for step in instructions_list if step.strip())
+        self.object.instructions = f"<ol>{formatted_instructions}</ol>"
+    
+        self.object = form.save()
+
+        # Extract ingredient data from POST request
+        ingredient_names = self.request.POST.getlist('ingredient_name[]')
+        ingredient_quantities = self.request.POST.getlist('ingredient_quantity[]')
+        ingredient_units = self.request.POST.getlist('ingredient_unit[]')
+        ingredient_optionals = self.request.POST.getlist('ingredient_optional[]')
+
+        for i in range(len(ingredient_names)):
+            name = ingredient_names[i].strip()
+            quantity = ingredient_quantities[i].strip() or None
+            unit = ingredient_units[i].strip() or ''
+            is_optional = 'true' in ingredient_optionals[i:i+1]
+
+            # Create or get the ingredient
+            ingredient, created = models.Ingredient.objects.get_or_create(name=name)
+
+            # Create RecipeIngredient entry
+            models.RecipeIngredient.objects.create(
+                recipe=self.object,
+                ingredient=ingredient,
+                quantity=quantity,
+                unit=unit,
+                is_optional=is_optional
+            )
+
+        return redirect(self.success_url)  
+    
+class RecipeDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = models.Recipe
+    success_url = reverse_lazy('recipe_list')
+    
+    def test_func(self):
+        recipe = self.get_object()
+        return self.request.user == recipe.user  
  
 @login_required
 def profile(request):

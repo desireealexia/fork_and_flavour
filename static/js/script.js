@@ -26,16 +26,12 @@ document.addEventListener('DOMContentLoaded', function () {
         const newRow = document.createElement('tr');
         newRow.classList.add('ingredient-item');
         newRow.innerHTML = `
-            <td class="drag-handle text-center">☰</td>
-            <td><input type="text" name="ingredient_name[]" class="form-control" required></td>
-            <td><input type="number" name="ingredient_quantity[]" step="0.01" class="form-control"></td>
-            <td><input type="text" name="ingredient_unit[]" class="form-control"></td>
-            <td class="text-center">
-                <input type="checkbox" name="ingredient_optional[]" value="true">
-            </td>
-            <td class="text-center">
-                <button type="button" class="btn btn-danger btn-sm remove-ingredient">Remove</button>
-            </td>
+            <td class="drag-handle">☰</td>
+            <td><input type="text" name="ingredient_name[]" placeholder="e.g. Chicken "class="form-control" required></td>
+            <td><input type="number" name="ingredient_quantity[]" placeholder="e.g. 0.5, 250" step="0.5" class="form-control"></td>
+            <td><input type="text" name="ingredient_unit[]" placeholder="e.g. g, ml" class="form-control"></td>
+            <td class="text-center"><input type="checkbox" name="ingredient_optional[]" value="true" class="form-check-input"></td>
+            <td class="text-center"><button type="button" class="btn btn-danger btn-sm remove-ingredient rounded-pill">✖</button></td>
         `;
         ingredientTableBody.appendChild(newRow);
 

@@ -1,32 +1,48 @@
-{% extends 'base.html' %}
-
-{% load static %}
-
-{% block title %}My Recipes - Fork & Flavour{% endblock %}
-
+{% extends 'base.html' %} 
+{% load static %} 
+{% block title %}My Recipes - Fork & Flavour{% endblock %} 
 {% block content %}
-<div class="container">
-    <h1 class="text-center mb-4">My Recipes</h1>
 
-    {% if recipes %}
-        <div class="recipe-list">
-            {% for recipe in recipes %}
-                <div class="card">
-                    {% if recipe.image %}
-                        <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}">
-                    {% else %}
-                        <img src="{% static 'images/default-recipe.jpg' %}" alt="Default Recipe Image">
-                    {% endif %}
-                    <div class="card-body">
-                        <h5 class="card-title">{{ recipe.title }}</h5>
-                        <p class="card-text">{{ recipe.description|truncatewords:20 }}</p>
-                        <a href="{% url 'recipe_detail' recipe.slug %}" class="btn btn-primary">View Recipe</a>
-                    </div>
-                </div>
-            {% endfor %}
+<div class="container mt-5">
+  <h1 class="text-center mb-4">My Recipes</h1>
+
+  {% if recipes %}
+  <div class="row">
+    {% for recipe in recipes %}
+    <div class="col-md-4 mb-4">
+      <div class="card">
+        {% if recipe.image %}
+        <img
+          src="{{ recipe.image.url }}"
+          alt="{{ recipe.title }}"
+          class="card-img-top img-fluid"
+        />
+        {% else %}
+        <img
+          src="{% static 'images/default-recipe.jpg' %}"
+          alt="Default Recipe Image"
+          class="card-img-top img-fluid"
+        />
+        {% endif %}
+        <div class="card-body">
+          <h5 class="card-title">{{ recipe.title }}</h5>
+          <p class="card-text">{{ recipe.description|truncatewords:20 }}</p>
+          <a
+            href="{% url 'recipe_detail' recipe.slug %}"
+            class="btn btn-primary rounded-pill"
+            >View Recipe</a
+          >
         </div>
-    {% else %}
-        <p class="text-center">You haven't added any recipes yet. <a href="{% url 'recipe_create' %}">Create one now!</a></p>
-    {% endif %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p class="text-center">
+    You haven't added any recipes yet.
+    <br>
+    <a href="{% url 'recipe_create' %}" class="btn btn-success mt-4 rounded-pill">Create one now!</a>
+  </p>
+  {% endif %}
 </div>
 {% endblock %}

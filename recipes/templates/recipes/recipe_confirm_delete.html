@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block title %}Delete Recipe - Fork & Flavour{% endblock %}
+{% block content %}
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 mt-3 offset-md-2">
+      <h1>Are you sure you want to delete the recipe <em>{{ recipe.title }}</em>?</h1>
+      <p>This action cannot be undone.</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-8 mt-3 offset-md-2">
+      <form method="POST">
+        {% csrf_token %}
+        <fieldset class="form-group">
+          {{ form|crispy }}
+        </fieldset>
+        <div class="d-flex justify-content-between py-3">
+          <input class="btn btn-danger rounded-pill btn-lg" type="submit" value="Delete" />
+          <a class="btn btn-secondary btn-lg rounded-pill" href="{% url 'recipe_list' %}">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

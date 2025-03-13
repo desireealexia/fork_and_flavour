@@ -1,68 +1,119 @@
-{% extends 'base.html' %}
-
-{% load static %}
-
-{% load crispy_forms_tags %}
-
-{% block title %}Create Recipe - Fork & Flavour{% endblock %}
-
+{% extends 'base.html' %} 
+{% load static %} 
+{% load crispy_forms_tags %} 
+{%  block title %}Create Recipe - Fork & Flavour{% endblock %} 
 {% block content %}
-<div class="container">
-    <h1 class="text-center mb-4">Create a New Recipe</h1>
-    
-    <form method="POST" enctype="multipart/form-data" class="recipe-form">
-        {% csrf_token %}
-    <fieldset>
-        <legend>Add recipe</legend>
-            {{ form.title|as_crispy_field }}
-            {{ form.category|as_crispy_field }}
-            {{ form.description|as_crispy_field }}
-            {{ form.image|as_crispy_field }}
-    </fieldset>
-    <fieldset class="mb-3">
-        <label class="form-label">Ingredients</label>
-        <div id="ingredient-list">
-                <table id="ingredient-table" class="table table-bordered table-striped">
-                    <thead class="table-dark">
-                        <tr  class="text-center">
-                            <th></th>
-                            <th>Ingredient Name</th>
-                            <th>Quantity</th>
-                            <th>Unit</th>
-                            <th>Optional</th>
-                            <th>Remove</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="ingredient-item">
-                            <td class="drag-handle text-center">☰</td>
-                            <td><input type="text" name="ingredient_name[]" class="form-control" required></td>
-                            <td><input type="number" name="ingredient_quantity[]" step="0.01" class="form-control"></td>
-                            <td><input type="text" name="ingredient_unit[]" placeholder="e.g., grams"class="form-control"></td>
-                            <td class="text-center">
-                                <input type="checkbox" name="ingredient_optional[]" value="true">
-                            </td>
-                            <td class="text-center">
-                                <button type="button" class="btn btn-danger btn-sm remove-ingredient">Remove</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                </div>
-                <button type="button" id="add-ingredient" class="btn btn-secondary">Add Ingredient</button>    
-            </fieldset>
-                            
-            <fieldset>
-                <label for="id_instructions" class="form-label">Instructions (one step per line)</label>
-                <textarea name="instructions" id="id_instructions" rows="5" class="form-control"
-                    placeholder="Heat olive oil in a pan...&#10;Add ground beef...&#10;Stir in tomatoes..."></textarea>
-                {{ form.status|as_crispy_field }}
-            </fieldset>
 
-        <div class="buttons">
-        <button type="submit" class="btn btn-primary">Submit Recipe</button>
-        <a href="{% url 'recipe_list' %}" class="btn btn-success">Cancel</a>
+<div class="container my-5">
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <h1 class="text-center mb-4">Create a New Recipe</h1>
+
+      <form method="POST" enctype="multipart/form-data" class="recipe-form">
+        {% csrf_token %}
+
+        <div class="mb-4">
+          <h4 class="mb-3">Add Recipe Details</h4>
+          {{ form.title|as_crispy_field }} 
+          {{ form.category|as_crispy_field }}
+          {{ form.description|as_crispy_field }} 
+          {{ form.image|as_crispy_field }}
         </div>
-    </form>
+
+        <div class="mb-4">
+          <label class="mb-3">Ingredients*</label>
+          <div class="table-responsive">
+            <table
+              id="ingredient-table"
+              class="table table-bordered table-striped align-middle"
+            >
+              <thead class="table-dark text-center">
+                <tr>
+                  <th></th>
+                  <th>Ingredient Name</th>
+                  <th>Quantity</th>
+                  <th>Unit</th>
+                  <th>Optional</th>
+                  <th>Remove</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="ingredient-item">
+                  <td class="drag-handle text-center">☰</td>
+                  <td>
+                    <input
+                      type="text"
+                      name="ingredient_name[]"
+                      placeholder="e.g. Chicken"
+                      class="form-control"
+                      required
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="number"
+                      name="ingredient_quantity[]"
+                      placeholder="e.g. 0.5, 250"
+                      step="0.5"
+                      class="form-control"
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      name="ingredient_unit[]"
+                      placeholder="e.g. g, ml"
+                      class="form-control"
+                    />
+                  </td>
+                  <td class="text-center">
+                    <input
+                      type="checkbox"
+                      name="ingredient_optional[]"
+                      value="true"
+                      class="form-check-input"
+                    />
+                  </td>
+                  <td class="text-center">
+                    <button
+                      type="button"
+                      class="btn btn-danger btn-sm remove-ingredient rounded-pill"
+                    >
+                      ✖
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <button
+            type="button"
+            id="add-ingredient"
+            class="btn btn-outline-secondary mt-2 rounded-pill"
+          >
+            + Add Ingredient
+          </button>
+        </div>
+
+        <div class="mb-4">
+          <label class="mb-3">Instructions*</label>
+          <textarea
+            name="instructions"
+            id="id_instructions"
+            rows="5"
+            class="form-control"
+            placeholder="Heat olive oil in a pan...&#10;Add ground beef...&#10;Stir in tomatoes..."
+          ></textarea>
+          {{ form.status|as_crispy_field }}
+        </div>
+
+        <div class="d-flex justify-content-between">
+          <a href="{% url 'recipe_list' %}" class="btn btn-danger rounded-pill">Cancel</a>
+          <button type="submit" class="btn btn-success rounded-pill">Submit Recipe</button>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>
+
 {% endblock %}
