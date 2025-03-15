@@ -1,6 +1,8 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
+from django.db.models import Count, Q
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.text import slugify
 from django.urls import reverse_lazy
@@ -17,7 +19,47 @@ class RecipeListView(generic.ListView):
     template_name = "recipes/index.html"
     queryset = models.Recipe.objects.filter(status=1).order_by('-created_at')
     paginate_by = 6
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = models.Category.objects.all()  # Pass all categories to the template
+        return context
     
+    def get_queryset(self):
+        category_filter = self.request.GET.get('category')
+        if category_filter:
+            return self.queryset.filter(category__id=category_filter)  # Using 'id' field for filtering
+        return self.queryset
+    
+def recipe_search(request):
+    query = request.GET.get('query', '')
+    category_id = request.GET.get('category', '')
+    
+    print(f"Selected Category ID: {category_id}") 
+    
+    # Filter recipes based on the search query
+    recipes = models.Recipe.objects.filter(
+        Q(title__icontains=query) | Q(ingredients__ingredient__name__icontains=query)
+    ).distinct()
+
+    if category_id:
+        recipes = recipes.filter(category_id=category_id)
+
+    # Fetch categories without counting recipes
+    categories = models.Category.objects.all().order_by('id')
+
+    # Pagination logic
+    paginator = Paginator(recipes, 6)  # 6 recipes per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'recipes/recipe_search.html', {
+        'recipes': page_obj,
+        'query': query,
+        'categories': categories,
+        'category_id': category_id,
+    })
+
 # View to display the details of a single recipe
 def recipe_detail(request, slug):
     """

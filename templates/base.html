@@ -1,7 +1,6 @@
 {% load static %}
 
 {% url 'home' as home_url %}
-{% url 'profile' as profile_url %}
 {% url 'account_login' as login_url %}
 {% url 'account_signup' as signup_url %}
 {% url 'account_logout' as logout_url %}
@@ -34,8 +33,9 @@
 <body class="d-flex flex-column main-bg">
 
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark">
+    <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
+            <!-- Left side logo and nav links -->
             <a class="navbar-brand" href="{% url 'home' %}">
                 <img src="{% static 'images/fork_and_flavour_logo.png' %}" alt="Fork & Flavour Logo" width="50">
                 Fork & Flavour
@@ -43,8 +43,8 @@
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     {% if user.is_authenticated %}
                     <li class="nav-item">
                         <a class="nav-link {% if request.path == logout_url %}active{% endif %}" href="{% url 'home' %}">Home</a>
@@ -70,6 +70,11 @@
                         </li>
                     {% endif %}
                 </ul>
+                <!-- Search Bar -->
+                <form class="d-flex w-25" role="search" action="{% url 'recipe_search' %}" method="get">
+                    <input class="form-control me-2 w-100" type="search" name="query" placeholder="Search recipes or ingredients..." aria-label="Search">
+                    <button class="btn btn-light" type="submit">Search</button>
+                </form>
             </div>
         </div>
     </nav>

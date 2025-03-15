@@ -57,6 +57,8 @@ main {
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Lato', sans-serif;
     font-weight: 700;
+}
+h2, h3, h4, h5, h6 {
     color: #333;
 }
 
@@ -230,4 +232,14 @@ footer span {
 
 .recipe-img {
     height: 500px;
+}
+
+#search-query {
+    color: #5B122A;
+    text-transform: capitalize;
+}
+
+.selected-filter {
+    font-weight: bold;
+    color: #5B122A;
 }

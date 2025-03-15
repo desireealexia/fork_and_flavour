@@ -221,3 +221,23 @@ footer span {
 .profile-info p {
     font-size: 1rem;
 }
+
+.card img {
+    height: 350px;
+    width: 368px;
+    object-fit: cover;
+}
+
+.recipe-img {
+    height: 500px;
+}
+
+.active {
+    background-color: #1F4F31;
+    color: #fff !important;
+    border-radius: 5px;
+    padding: 8px 12px;
+    display: inline-block;
+    font-weight: bold;
+}
+
