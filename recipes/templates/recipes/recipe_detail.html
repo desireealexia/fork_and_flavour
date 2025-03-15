@@ -30,13 +30,13 @@
     <img
       src="{{ recipe.image.url }}"
       alt="{{ recipe.title }}"
-      class="img-fluid"
+      class="img-fluid recipe-img"
     />
     {% else %}
     <img
       src="{% static 'images/default-recipe.jpg' %}"
       alt="Default Recipe Image"
-      class="img-fluid"
+      class="img-fluid recipe-img"
     />
     {% endif %}
   </div>

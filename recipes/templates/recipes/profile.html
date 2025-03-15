@@ -5,13 +5,14 @@
 {% block content %}
 
 <div class="container mt-5">
-  <div class="row">
     <!-- Profile Info Section -->
     <div class="col-md-4">
       <div class="card shadow-sm">
         <div class="card-body text-center">
           <h3 class="mb-3">{{ user.username }}'s Profile</h3>
-          <p><strong>Email:</strong> {{ user.email }}</p>
+          {% if user.email %}
+            <p><strong>Email:</strong> {{ user.email }}</p>
+          {% endif %}
           <a
             href="{% url 'account_change_password' %}"
             class="btn btn-outline-primary btn-sm mt-3 rounded-pill"
@@ -22,7 +23,7 @@
     </div>
 
     <!-- Recipes List Section -->
-    <div class="col-md-8">
+    <div class="col-md-8 mt-5">
       <h4 class="mb-4">Your Recipes</h4>
       {% if recipes %}
       <div class="list-group">
@@ -31,7 +32,14 @@
           href="{% url 'recipe_detail' recipe.slug %}"
           class="list-group-item list-group-item-action"
         >
+        <div class="d-flex justify-content-between">
           {{ recipe.title }}
+            {% if recipe.status == 0 %}
+            <span class="badge rounded-pill text-bg-secondary ms-auto">Draft</span>
+            {% elif recipe.status == 1 %}
+            <span class="badge rounded-pill text-bg-success ms-auto">Published</span>
+            {% endif %}
+          </div>
         </a>
         {% endfor %}
       </div>
@@ -39,7 +47,7 @@
       <p>You haven't created any recipes yet.</p>
       {% endif %}
     </div>
-  </div>
+
 </div>
 
 {% endblock %}

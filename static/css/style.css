@@ -222,3 +222,12 @@ footer span {
     font-size: 1rem;
 }
 
+.card img {
+    height: 350px;
+    width: 368px;
+    object-fit: cover;
+}
+
+.recipe-img {
+    height: 500px;
+}

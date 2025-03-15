@@ -28,6 +28,7 @@ class Recipe(models.Model):
     status = models.IntegerField(choices=STATUS, default=0)   
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True) 
+    
     def __str__(self):
         return self.title
     
@@ -61,16 +62,3 @@ class RecipeIngredient(models.Model):
             return f"{self.unit} of {self.ingredient.name}"
         else:
             return f"{self.ingredient.name}"
-    
-class Tag(models.Model):
-    name = models.CharField(max_length=100)
-
-    def __str__(self):
-        return self.name
-    
-class RecipeTag(models.Model):
-    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
-    tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return f"{self.recipe.title} tagged with {self.tag.name}"

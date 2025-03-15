@@ -1,6 +1,6 @@
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.decorators import login_required
-from django.forms import inlineformset_factory
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.text import slugify
 from django.urls import reverse_lazy
@@ -33,10 +33,12 @@ def recipe_detail(request, slug):
     :template:`blog/post_detail.html`
     """
 
-    queryset = models.Recipe.objects.filter(status=1)
-    recipe = get_object_or_404(queryset, slug=slug)
+    recipe = get_object_or_404(models.Recipe, slug=slug)
     ingredients = recipe.ingredients.all() 
-
+    
+    if recipe.status == 0 and recipe.user != request.user:
+        return redirect('profile')
+    
     return render(
         request,
         "recipes/recipe_detail.html",
@@ -49,7 +51,7 @@ class RecipeCreateView(LoginRequiredMixin, CreateView):
     fields = ['title', 'category', 'description', 'instructions', 'image', 'status']
     
     template_name = 'recipes/recipe_form.html'
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('recipe_list')
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
@@ -86,7 +88,8 @@ class RecipeCreateView(LoginRequiredMixin, CreateView):
                 unit=unit,
                 is_optional=is_optional
             )
-
+            
+        messages.success(self.request, 'Recipe created successfully!')
         return redirect(self.success_url)
     
 class RecipeUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
@@ -94,7 +97,7 @@ class RecipeUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     fields = ['title', 'category', 'description', 'instructions', 'image', 'status']
     
     template_name = 'recipes/recipe_form.html'
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('recipe_list')
     
     def test_func(self):
         recipe = self.get_object()
@@ -135,7 +138,8 @@ class RecipeUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                 unit=unit,
                 is_optional=is_optional
             )
-
+        
+        messages.success(self.request, 'Recipe updated successfully!')
         return redirect(self.success_url)  
     
     def get_context_data(self, **kwargs):
@@ -155,6 +159,7 @@ class RecipeDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     
     def test_func(self):
         recipe = self.get_object()
+        messages.success(self.request, 'Recipe deleted successfully!')
         return self.request.user == recipe.user  
  
 @login_required
