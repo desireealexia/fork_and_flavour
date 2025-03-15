@@ -111,8 +111,11 @@ class RecipeUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         self.object.instructions = f"<ol>{formatted_instructions}</ol>"
     
         self.object = form.save()
+        
+        # Clear old ingredients
+        models.RecipeIngredient.objects.filter(recipe=self.object).delete()
 
-        # Extract ingredient data from POST request
+        # Extract and save new ingredient data
         ingredient_names = self.request.POST.getlist('ingredient_name[]')
         ingredient_quantities = self.request.POST.getlist('ingredient_quantity[]')
         ingredient_units = self.request.POST.getlist('ingredient_unit[]')
@@ -124,10 +127,7 @@ class RecipeUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             unit = ingredient_units[i].strip() or ''
             is_optional = 'true' in ingredient_optionals[i:i+1]
 
-            # Create or get the ingredient
             ingredient, created = models.Ingredient.objects.get_or_create(name=name)
-
-            # Create RecipeIngredient entry
             models.RecipeIngredient.objects.create(
                 recipe=self.object,
                 ingredient=ingredient,
@@ -137,6 +137,17 @@ class RecipeUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             )
 
         return redirect(self.success_url)  
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        recipe = self.get_object()
+        recipe_ingredients = models.RecipeIngredient.objects.filter(recipe=recipe)
+        raw_instructions = recipe.instructions.replace("<ol>", "").replace("</ol>", "").replace("<li>", "").replace("</li>", "\n").strip()
+        
+        context['recipe_ingredients'] = recipe_ingredients
+        context['raw_instructions'] = raw_instructions
+        return context
+
     
 class RecipeDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = models.Recipe

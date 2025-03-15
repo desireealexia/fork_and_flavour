@@ -38,13 +38,14 @@
                 </tr>
               </thead>
               <tbody>
+                {% for ingredient in recipe_ingredients %}
                 <tr class="ingredient-item">
                   <td class="drag-handle text-center">☰</td>
                   <td>
                     <input
                       type="text"
                       name="ingredient_name[]"
-                      placeholder="e.g. Chicken"
+                      value="{{ ingredient.ingredient.name }}"
                       class="form-control"
                       required
                     />
@@ -53,8 +54,7 @@
                     <input
                       type="number"
                       name="ingredient_quantity[]"
-                      placeholder="e.g. 0.5, 250"
-                      step="0.5"
+                      value="{{ ingredient.quantity|default_if_none:'' }}"
                       class="form-control"
                     />
                   </td>
@@ -62,7 +62,7 @@
                     <input
                       type="text"
                       name="ingredient_unit[]"
-                      placeholder="e.g. g, ml"
+                      value="{{ ingredient.unit|default_if_none:'' }}"
                       class="form-control"
                     />
                   </td>
@@ -72,6 +72,7 @@
                       type="checkbox"
                       name="ingredient_optional[]"
                       value="true"
+                      {% if ingredient.is_optional %}checked{% endif %}
                       class="form-check-input"
                     />
                   </td>
@@ -84,7 +85,9 @@
                     </button>
                   </td>
                 </tr>
+                {% endfor %}
               </tbody>
+              
             </table>
           </div>
           <button
@@ -104,7 +107,7 @@
             rows="5"
             class="form-control"
             placeholder="Heat olive oil in a pan...&#10;Add ground beef...&#10;Stir in tomatoes..."
-          ></textarea>
+          >{{ raw_instructions }}</textarea>
           {{ form.status|as_crispy_field }}
         </div>
 
