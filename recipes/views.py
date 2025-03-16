@@ -1,18 +1,17 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
-from django.db.models import Count, Q
+from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.text import slugify
 from django.urls import reverse_lazy
 from django.views import generic
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView
+from django.http import Http404
 
 from . import models
 
 # Create your views here.
-
 # View to list all recipes on index.html
 class RecipeListView(generic.ListView):
     model = models.Recipe
@@ -34,8 +33,6 @@ class RecipeListView(generic.ListView):
 def recipe_search(request):
     query = request.GET.get('query', '')
     category_id = request.GET.get('category', '')
-    
-    print(f"Selected Category ID: {category_id}") 
     
     # Filter recipes based on the search query
     recipes = models.Recipe.objects.filter(
@@ -203,15 +200,6 @@ class RecipeDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         recipe = self.get_object()
         messages.success(self.request, 'Recipe deleted successfully!')
         return self.request.user == recipe.user  
- 
-@login_required
-def profile(request):
-    user_recipes = models.Recipe.objects.filter(user=request.user)
-    context = {
-        'user': request.user,
-        'recipes': user_recipes,
-    }
-    return render(request, 'recipes/profile.html', context)
 
 # View to list all recipes for a specific user
 class UserRecipeListView(LoginRequiredMixin, ListView):

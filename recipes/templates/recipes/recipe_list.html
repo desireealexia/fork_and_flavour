@@ -7,10 +7,10 @@
   <h1 class="text-center mb-4">My Recipes</h1>
 
   {% if recipes %}
-  <div class="row">
+  <div class="row row-cols-1 row-cols-md-3 g-4">
     {% for recipe in recipes %}
-    <div class="col-md-4 mb-4">
-      <div class="card">
+    <div class="col mb-4">
+      <div class="card shadow-sm border-0 h-100">
         {% if recipe.image %}
         <img
           src="{{ recipe.image.url }}"
@@ -24,25 +24,30 @@
           class="card-img-top img-fluid"
         />
         {% endif %}
-        <div class="card-body">
-          <h5 class="card-title">{{ recipe.title }}</h5>
-          <p class="card-text">{{ recipe.description|truncatewords:20 }}</p>
+        <div class="card-body d-flex flex-column">
+          <div class="d-flex justify-content-between">
+            <h5 class="card-title">{{ recipe.title }}</h5>
+              {% if recipe.status == 0 %}
+              <span class="badge rounded-pill text-bg-secondary ms-auto">Draft</span>
+              {% elif recipe.status == 1 %}
+              <span class="badge rounded-pill text-bg-success ms-auto">Published</span>
+              {% endif %}
+            </div>
+          <p class="card-text">{{ recipe.description|truncatewords:15 }}</p>
           <a
             href="{% url 'recipe_detail' recipe.slug %}"
-            class="btn btn-primary rounded-pill"
-            >View Recipe</a
-          >
+            class="btn btn-primary mt-auto rounded-pill"
+          >View Recipe</a>
         </div>
       </div>
     </div>
     {% endfor %}
   </div>
   {% else %}
-  <p class="text-center">
-    You haven't added any recipes yet.
-    <br>
+  <div class="text-center">
+    <p>You haven't added any recipes yet.</p>
     <a href="{% url 'recipe_create' %}" class="btn btn-success mt-4 rounded-pill">Create one now!</a>
-  </p>
+  </div>
   {% endif %}
 </div>
 {% endblock %}
