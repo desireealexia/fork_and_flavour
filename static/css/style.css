@@ -51,13 +51,14 @@ h6 {
 }
 
 a {
-  color: #1f4f31;
+  color: var(--chocolate-cosmos);
+  font-weight: 800;
   text-decoration: none;
 }
 
 a:hover {
-  color: #b13f26;
-  text-decoration: underline;
+  color: var(--engineering-orange);
+  text-decoration: none;
 }
 
 /* ============================= */
@@ -92,6 +93,10 @@ a:hover {
   padding-right: 15px;
 }
 
+.navbar-brand:hover {
+  color: var(--buff);
+}
+
 #logo img {
   max-width: 50px;
   height: auto;
@@ -113,6 +118,7 @@ form.d-flex {
 
 #search-bar {
   border: 2px solid var(--seashell);
+  width: 400px;
 }
 
 #search-bar:focus,
@@ -137,6 +143,11 @@ form.d-flex {
   text-transform: capitalize;
 }
 
+.category-option {
+  color: var(--cal-poly-green);
+  font-weight: 600;
+}
+
 .category-option:hover {
   color: var(--buff);
   text-decoration: none;
@@ -152,7 +163,7 @@ form.d-flex {
 /* ============================= */
 .btn.rounded-pill {
   text-decoration: none;
-  padding: 10px 20px;
+  padding: 10px 10px;
   font-weight: 600;
 }
 
@@ -176,6 +187,10 @@ form.d-flex {
   border-color: var(--engineering-orange);
 }
 
+.btn-edit,
+.btn-delete {
+    width: 120px;
+}
 /* ============================= */
 /*             CARDS             */
 /* ============================= */
@@ -314,4 +329,18 @@ footer span {
   .alert {
     font-size: 0.875rem;
   }
+
+  #search-bar {
+    width: 250px;
+  }
+
+  .btn-text {
+    display: none;
+  }
+
+  .btn-edit,
+  .btn-delete {
+    width: 50px;
+    height: 50px; 
+}
 }
