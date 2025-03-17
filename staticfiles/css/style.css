@@ -1,5 +1,11 @@
+/* ============================= */
+/*         IMPORT FONTS          */
+/* ============================= */
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
 
+/* ============================= */
+/*          ROOT VARIABLES       */
+/* ============================= */
 :root {
   --cal-poly-green: #1f4f31;
   --engineering-orange: #b13f26;
@@ -9,13 +15,15 @@
   --jet: #333333;
 }
 
+/* ============================= */
+/*         GLOBAL STYLES         */
+/* ============================= */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* General Styling */
 body {
   font-family: "Open Sans", sans-serif;
   font-weight: 600;
@@ -24,11 +32,38 @@ body {
 }
 
 .container {
-    max-width: 1200px;
-    margin: 0 auto;
-  }
+  max-width: 1200px;
+  margin: 0 auto;
+}
 
-/* Navigation Bar Styling */
+/* ============================= */
+/*          TYPOGRAPHY           */
+/* ============================= */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 700;
+  color: var(--cal-poly-green);
+}
+
+a {
+  color: var(--chocolate-cosmos);
+  font-weight: 800;
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--engineering-orange);
+  text-decoration: none;
+}
+
+/* ============================= */
+/*         NAVIGATION BAR        */
+/* ============================= */
 .navbar {
   background-color: var(--jet);
 }
@@ -40,10 +75,6 @@ body {
 
 .navbar a.nav-link:hover {
   color: #b13f26;
-}
-
-.navbar-toggler-icon {
-  background-color: var(--seashell);
 }
 
 .navbar-dark .navbar-nav .nav-link.active {
@@ -62,34 +93,43 @@ body {
   padding-right: 15px;
 }
 
+.navbar-brand:hover {
+  color: var(--buff);
+}
+
 #logo img {
   max-width: 50px;
   height: auto;
 }
 
-/* Search Bar Styling */
+/* ============================= */
+/*       SEARCH STYLING          */
+/* ============================= */
 form.d-flex {
   align-items: center;
   gap: 10px;
 }
 
-#search-bar {
+#search-bar,
+#search-btn {
   padding: 10px 20px;
-  border: 2px solid var(--seashell);
   transition: all 0.3s ease;
 }
 
-#search-bar:focus {
+#search-bar {
+  border: 2px solid var(--seashell);
+  width: 400px;
+}
+
+#search-bar:focus,
+#search-btn:focus {
   border-color: var(--buff);
   box-shadow: 0 0 5px rgba(228, 158, 107, 0.7);
 }
 
 #search-btn {
   background-color: var(--buff);
-  padding: 10px 20px;
   color: var(--jet);
-  font-weight: 600;
-  transition: all 0.3s ease;
 }
 
 #search-btn:hover {
@@ -97,32 +137,33 @@ form.d-flex {
   color: var(--seashell);
 }
 
-#search-btn:focus {
-  outline: none;
-  box-shadow: 0 0 5px rgba(228, 158, 107, 0.7);
-}
-
-/* Search Page Styling */
 #search-query,
 .delete-title {
-    color: var(--chocolate-cosmos);
-    text-transform: capitalize;
- }
-  
-  .category-option:hover {
-      color: var(--buff);
-      text-decoration: none;
-  }
-  
-  .selected-filter {
-    font-weight: bold;
-    color: var(--chocolate-cosmos);
-  }
-  
-/* Button styling */
+  color: var(--chocolate-cosmos);
+  text-transform: capitalize;
+}
+
+.category-option {
+  color: var(--cal-poly-green);
+  font-weight: 600;
+}
+
+.category-option:hover {
+  color: var(--buff);
+  text-decoration: none;
+}
+
+.selected-filter {
+  font-weight: bold;
+  color: var(--chocolate-cosmos);
+}
+
+/* ============================= */
+/*           BUTTONS             */
+/* ============================= */
 .btn.rounded-pill {
   text-decoration: none;
-  padding: 10px 20px;
+  padding: 10px 10px;
   font-weight: 600;
 }
 
@@ -146,19 +187,13 @@ form.d-flex {
   border-color: var(--engineering-orange);
 }
 
-/* Heading styling */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: "Montserrat", sans-serif;
-  font-weight: 700;
-  color: var(--cal-poly-green);
+.btn-edit,
+.btn-delete {
+    width: 120px;
 }
-
-/* Card styling for recipe cards or content sections */
+/* ============================= */
+/*             CARDS             */
+/* ============================= */
 .card {
   border: none;
   border-radius: 8px;
@@ -175,30 +210,31 @@ h6 {
 
 /* Card hover effect */
 .card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease-in-out;
+  transform: translateY(-10px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
 }
 
 .create-card:hover {
-    transform: none;
+  transform: none;
 }
 
 .badge {
-    height: 24px;
-    margin: 0;
-    padding: 6px 10px;
+  height: 24px;
+  margin: 0;
+  padding: 6px 10px;
 }
-
 
 /* Card image consistency */
 .card-img-top {
-    object-fit: cover;
-    height: 350px;
-    width: 368px;
+  object-fit: cover;
+  height: 350px;
+  width: 100%;
 }
 
-/* Form styling */
+/* ============================= */
+/*           FORMS               */
+/* ============================= */
 input[type="text"],
 input[type="email"],
 input[type="password"],
@@ -237,21 +273,16 @@ label {
 }
 
 tr {
-    background-color: var(--jet);
+  background-color: var(--jet);
 }
 
-/* Links */
-a {
-  color: #1f4f31;
-  text-decoration: none;
+input[type="checkbox"] {
+  margin: 0 10px;
 }
 
-a:hover {
-  color: #b13f26;
-  text-decoration: underline;
-}
-
-/* Footer */
+/* ============================= */
+/*             FOOTER            */
+/* ============================= */
 footer {
   background-color: var(--jet);
   color: #fff;
@@ -261,13 +292,27 @@ footer span {
   font-size: 1rem;
 }
 
-/* Alert messages */
+/* ============================= */
+/*           ALERTS              */
+/* ============================= */
 .alert {
   margin-bottom: 1.5rem;
   border-radius: 8px;
 }
 
-/* Responsive Design */
+/* ============================= */
+/*           IMAGES              */
+/* ============================= */
+
+.recipe-img {
+  height: 400px;
+  width: 400px;
+  object-fit: cover;
+}
+
+/* ============================= */
+/*       RESPONSIVE DESIGN       */
+/* ============================= */
 @media (max-width: 768px) {
   .navbar-brand {
     font-size: 1.25rem;
@@ -284,35 +329,18 @@ footer span {
   .alert {
     font-size: 0.875rem;
   }
-}
 
-/* Profile Page */
-.profile-container {
-  background-color: #fff;
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
+  #search-bar {
+    width: 250px;
+  }
 
-.profile-container h3 {
-  color: #1f4f31;
-  font-weight: 700;
-}
+  .btn-text {
+    display: none;
+  }
 
-.profile-info {
-  margin-top: 1rem;
+  .btn-edit,
+  .btn-delete {
+    width: 50px;
+    height: 50px; 
 }
-
-.profile-info p {
-  font-size: 1rem;
-}
-
-.recipe-img {
-    height: 400px;
-    width: 400px;
-    object-fit: cover;
-}
-
-input[type="checkbox"] {
-    margin: 0 10px;
 }
