@@ -1,8 +1,8 @@
 # [ReelRatings](https://fork-and-flavours-72f7a7edee0f.herokuapp.com/)
 
-![Fork & Flavours Responsiveness](docs/fork-and-flavours-responsiveness.png)
-
 Fork & Flavour is a recipe manager website that allows authorised users to create, view, edit, and delete recipes. It features a clean, modern, and playful design, offering a seamless user experience with easy navigation and an interactive recipe management system.
+
+![Fork & Flavours Responsiveness](docs/fork-and-flavours-responsiveness.png)
 
 [View live website here](https://fork-and-flavours-72f7a7edee0f.herokuapp.com/)
 
@@ -164,7 +164,7 @@ Links recipes to their ingredients, with quantities and measurement units.
 | is_optional    | boolean    | Default: false                           |
 
 ### **Category**
-Stores recipe categories (e.g., "Appetizer", "Dessert").
+Stores recipe categories (e.g., "Breakfast", "Dessert").
 
 | Column        | Data Type  | Constraints           |
 |---------------|------------|-----------------------|
@@ -280,10 +280,8 @@ Visit `http://127.0.0.1:8000` in your browser to view the project locally.
 ### Frameworks, Libraries & Tools
 - **Django**: Backend framework to manage data and user authentication.
 - **Django Allauth**: User authentication for login and account management.
-- **Open Food Facts API**: To fill the ingredient model with nutritional and ingredient data.
-- **Bootstrap 4**: For responsive grid layout and components.
+- **Bootstrap 5**: For responsive grid layout and components.
 - **Font Awesome**: For icons and aesthetic elements.
-- **jQuery**: For smooth scroll and other interactive features.
 - **Git**: Version control for project management.
 - **GitHub**: To store the project's code and manage versions.
 - Heroku

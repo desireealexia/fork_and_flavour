@@ -4,50 +4,50 @@
 {% block content %}
 
 <div class="container mt-5">
-  <!-- Recipe Header -->
-  <div class="row">
-    <div class="col-12 d-flex justify-content-between align-items-center">
-      <h1>{{ recipe.title }}</h1>
+  <!-- Recipe Header with Image on the Right -->
+  <div class="row align-items-center">
+    <div class="col-md-8">
+      <div class="d-flex justify-content-between align-items-center">
+        <h1 class="mb-0">{{ recipe.title }}</h1>
 
-      <!-- Edit and Delete Buttons (only visible to the recipe author) -->
-      {% if request.user == recipe.user %}
-      <div>
-        <a href="{% url 'recipe_update' recipe.slug %}" class="btn btn-warning btn-edit mx-2 rounded-pill shadow-sm" data-toggle="tooltip" data-placement="top" title="Edit this recipe">
-          <i class="fas fa-edit"></i> <span class="btn-text">Edit</span>
-        </a>
-        <a href="{% url 'recipe_delete' recipe.slug %}" class="btn btn-danger btn-delete mx-2 rounded-pill shadow-sm" data-toggle="tooltip" data-placement="top" title="Delete this recipe">
-          <i class="fas fa-trash-alt"></i> <span class="btn-text">Delete</span>
-        </a>
+        <!-- Edit and Delete Buttons (only visible to the recipe author) -->
+        {% if request.user == recipe.user %}
+        <div class="d-flex gap-2">
+          <a href="{% url 'recipe_update' recipe.slug %}" class="btn btn-warning btn-edit mx-2 rounded-pill shadow-sm" data-toggle="tooltip" data-placement="top" title="Edit this recipe">
+            <i class="fas fa-edit"></i> <span class="btn-text">Edit</span>
+          </a>
+          <a href="{% url 'recipe_delete' recipe.slug %}" class="btn btn-danger btn-delete mx-2 rounded-pill shadow-sm" data-toggle="tooltip" data-placement="top" title="Delete this recipe">
+            <i class="fas fa-trash-alt"></i> <span class="btn-text">Delete</span>
+          </a>
+        </div>
+        {% endif %}
       </div>
-      {% endif %}
-    </div>
+
       <p class="text-muted">Recipe by {{ recipe.user }}</p>
+      <p class="text-muted"><strong>Category:</strong> {{ recipe.category }}</p>
+      <p class="text-muted">Created on {{ recipe.created_at|date:"F j, Y" }} | Updated on {{ recipe.updated_at|date:"F j, Y" }}</p>
       <p>{{ recipe.description }}</p>
+    </div>
+
+    <div class="col-md-4 text-center">
+      {% if recipe.image %}
+      <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}" class="rounded shadow-sm recipe-img" />
+      {% else %}
+      <img src="{% static 'images/default-recipe.jpg' %}" alt="Default Recipe Image" class="rounded shadow-sm recipe-img" />
+      {% endif %}
     </div>
   </div>
 
-  <!-- Recipe Content: Photo on the Left, Ingredients on the Right -->
-  <div class="row mb-4">
-    <div class="col-md-4 text-center">
-      {% if recipe.image %}
-      <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}" class="img-fluid recipe-img" />
-      {% else %}
-      <img src="{% static 'images/default-recipe.jpg' %}" alt="Default Recipe Image" class="img-fluid recipe-img" />
-      {% endif %}
-    </div>
-    <!-- Ingredients Section -->
-    <div class="col-md-8 mt-4">
+  <!-- Ingredients Section -->
+  <div class="row mt-4">
+    <div class="col-12">
       <h2>Ingredients</h2>
       <ul class="list-group">
         {% for ingredient in ingredients %}
         <li class="list-group-item d-flex align-items-center">
-          <input type="checkbox" />
-          {% if ingredient.quantity %}
-          {{ ingredient.format_quantity }}
-          {% endif %}
-          {% if ingredient.unit %}
-          {{ ingredient.unit }}
-          {% endif %}
+          <input type="checkbox" name="ingredient-checkbox" />
+          {% if ingredient.quantity %} {{ ingredient.format_quantity }} {% endif %}
+          {% if ingredient.unit %} {{ ingredient.unit }} {% endif %}
           {{ ingredient.ingredient.name }}
           {% if ingredient.is_optional %}
           <span class="text-muted">(Optional)</span>
@@ -58,14 +58,15 @@
         {% endfor %}
       </ul>
     </div>
+  </div>
+
   <!-- Preparation Steps Section -->
   <div class="row mt-4">
-    <div class="col-md-8">
+    <div class="col-12">
       <h2>Preparation Steps</h2>
-        {{ recipe.instructions|safe }}
+      {{ recipe.instructions|safe }}
     </div>
   </div>
-</div>
 
   <!-- Social Share Section -->
   <div class="row mt-4">
@@ -81,7 +82,8 @@
       </div>
     </div>
   </div>
-
 </div>
+
+
 
 {% endblock %}

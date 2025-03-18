@@ -228,7 +228,7 @@ form.d-flex {
 /* Card image consistency */
 .card-img-top {
   object-fit: cover;
-  height: 350px;
+  height: 250px;
   width: 100%;
 }
 
@@ -305,7 +305,7 @@ footer span {
 /* ============================= */
 
 .recipe-img {
-  height: 400px;
+  height: 250px;
   width: 400px;
   object-fit: cover;
 }
@@ -342,5 +342,5 @@ footer span {
   .btn-delete {
     width: 50px;
     height: 50px; 
-}
+  }
 }
