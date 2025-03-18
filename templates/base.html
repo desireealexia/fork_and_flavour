@@ -20,8 +20,20 @@
       type="image/x-icon"
     />
 
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="upgrade-insecure-requests"
+    />
 
+    <meta 
+    name="description" 
+    content="Fork & Flavour - A recipe manager for food lovers to create, share, and discover new recipes."
+    />
+    
+    <meta 
+    name="author" 
+    content="Desiree Williams-Forde"
+    />
 
     <!-- Font Awesome CSS -->
     <link
@@ -42,99 +54,114 @@
   </head>
 
   <body class="d-flex flex-column min-vh-100 main-bg">
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark shadow-sm">
-      <div class="container-fluid">
-        <a id="logo" class="navbar-brand fw-bold" href="{% url 'home' %}">
-          <img
-            src="{% static 'images/fork_and_flavour_logo.png' %}"
-            alt="Fork & Flavour Logo"
-            width="50"
-          />
-          Fork & Flavour
-        </a>
-        <button 
-        class="navbar-toggler" 
-        type="button" 
-        data-bs-toggle="collapse" 
-        data-bs-target="#navbarSupportedContent" 
-        aria-controls="navbarSupportedContent" 
-        aria-expanded="false" 
-        aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
+    <header>
+      <!-- Navigation -->
+      <nav class="navbar navbar-expand-lg navbar-dark shadow-sm">
+        <div class="container-fluid">
+          <a id="logo" class="navbar-brand fw-bold" href="{% url 'home' %}">
+            <img
+              src="{% static 'images/fork_and_flavour_logo.png' %}"
+              alt="Fork & Flavour Logo"
+              width="50"
+            />
+            Fork & Flavour
+          </a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            {% if user.is_authenticated %}
-            <li class="nav-item">
-              <a class="nav-link {% if request.path == create_url %}active{% endif %}" 
-              href="{% url 'recipe_create' %}"
-                >Add Recipe</a
-              >
-            </li>
-            <li class="nav-item">
-              <a class="nav-link {% if request.path == recipes_url %}active{% endif %}" 
-              href="{% url 'recipe_list' %}">My Recipes</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link {% if request.path == logout_url %}active{% endif %}" 
-              href="{% url 'account_logout' %}">Logout</a>
-            </li>
-            {% else %}
-            <li class="nav-item">
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              {% if user.is_authenticated %}
+              <li class="nav-item">
+                <a
+                  class="nav-link {% if request.path == create_url %}active{% endif %}"
+                  href="{% url 'recipe_create' %}"
+                  >Add Recipe</a
+                >
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link {% if request.path == recipes_url %}active{% endif %}"
+                  href="{% url 'recipe_list' %}"
+                  >My Recipes</a
+                >
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link {% if request.path == logout_url %}active{% endif %}"
+                  href="{% url 'account_logout' %}"
+                  >Logout</a
+                >
+              </li>
+              {% else %}
+              <li class="nav-item">
                 <a
                   class="nav-link {% if request.path == home_url %}active{% endif %}"
                   href="{% url 'home' %}"
                   >Home</a
                 >
               </li>
-            <li class="nav-item">
-              <a class="nav-link {% if request.path == login_url %}active{% endif %}" 
-              href="{% url 'account_login' %}">Login</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link {% if request.path == signup_url %}active{% endif %}" 
-              href="{% url 'account_signup' %}">Sign Up</a>
-            </li>
-            {% endif %}
-          </ul>
-
-          <!-- Search Bar -->
-          <form
-            class="d-flex"
-            role="search"
-            action="{% url 'recipe_search' %}"
-            method="get"
-          >
-            <input
-              class="form-control me-2 rounded-pill"
-              id="search-bar"
-              type="search"
-              name="query"
-              placeholder="Search recipes or ingredients..."
-              aria-label="Search"
-            />
-            <button class="btn btn-light rounded-pill" id="search-btn" type="submit">
-              Search
-            </button>
-          </form>
+              <li class="nav-item">
+                <a
+                  class="nav-link {% if request.path == login_url %}active{% endif %}"
+                  href="{% url 'account_login' %}"
+                  >Login</a
+                >
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link {% if request.path == signup_url %}active{% endif %}"
+                  href="{% url 'account_signup' %}"
+                  >Sign Up</a
+                >
+              </li>
+              {% endif %}
+            </ul>
+            <!-- Search Bar -->
+            <form
+              class="d-flex"
+              role="search"
+              action="{% url 'recipe_search' %}"
+              method="get"
+            >
+              <input
+                class="form-control me-2 rounded-pill"
+                id="search-bar"
+                type="search"
+                name="query"
+                placeholder="Search recipes or ingredients..."
+                aria-label="Search"
+              />
+              <button
+                class="btn btn-light rounded-pill"
+                id="search-btn"
+                type="submit"
+              >
+                Search
+              </button>
+            </form>
+          </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+    </header>
 
     <!-- Main Content Area -->
     <main class="flex-shrink-0 main-bg py-4">
       <div class="container">
-        {% if messages %} 
-        {% for message in messages %}
+        {% if messages %} {% for message in messages %}
         <div class="alert alert-{{ message.tags }}" role="alert">
           {{ message }}
         </div>
-        {% endfor %} 
-        {% endif %} 
-        
-        {% block content %}
+        {% endfor %} {% endif %} {% block content %}
         <!-- Content Goes here -->
         {% endblock content %}
       </div>
@@ -142,7 +169,7 @@
 
     <!-- Footer -->
     <footer class="text-light text-center py-3 mt-auto shadow-sm">
-      <span>Fork & Flavour. All rights reserved.</span>
+      <span>&copy; 2025 Fork & Flavour. All rights reserved.</span>
     </footer>
 
     <!-- Scripts -->
@@ -153,7 +180,7 @@
       crossorigin="anonymous"
     ></script>
     {% if 'recipe_form' in request.path %}
-  <script src="{% static 'js/script.js' %}"></script>
-{% endif %}
+    <script src="{% static 'js/script.js' %}"></script>
+    {% endif %}
   </body>
 </html>
