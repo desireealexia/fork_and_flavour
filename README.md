@@ -1,6 +1,6 @@
 # [ReelRatings](https://fork-and-flavours-72f7a7edee0f.herokuapp.com/)
 
-![Fork & Flavours Responsiveness](docs\fork-and-flavours-responsiveness.png)
+![Fork & Flavours Responsiveness](docs/fork-and-flavours-responsiveness.png)
 
 Fork & Flavour is a recipe manager website that allows authorised users to create, view, edit, and delete recipes. It features a clean, modern, and playful design, offering a seamless user experience with easy navigation and an interactive recipe management system.
 
@@ -74,7 +74,7 @@ The colour scheme for Fork & Flavour reflects a modern, minimalist, and vibrant 
 - Seashell (#FBF1EE): A light, neutral background colour that provides a clean, airy feel.
 - Jet (#333333): A dark grey used for text, providing high contrast and readability.
 
-![Fork & Flavours Colour Palette](docs\fork-and-flavours-palette.png)
+![Fork & Flavours Colour Palette](docs/fork-and-flavours-palette.png)
 
 ### Typography
 
@@ -89,8 +89,7 @@ For a clean and modern user interface, the following fonts have been chosen:
 
 You can view the logo below:
 
-![Fork & Flavours Logo](static\images\fork_and_flavour_logo.png)
-
+![Fork & Flavours Logo](static/images/fork_and_flavour_logo.png)
 ### Wireframes
 
 Homepage: The homepage features a clean layout with easy navigation to key areas, such as featured recipes and recipe categories.
@@ -112,7 +111,7 @@ Profile Page (Scrapped): Originally intended for user profile details, this page
 
 Fork & Flavour uses a relational database to store user accounts, recipes, ingredients, and categories. Below is the **Entity-Relationship Diagram (ERD)** representing the database structure:
 
-![ERD Diagram](docs\fork-and-flavours-erd.png)
+![ERD Diagram](docs/fork-and-flavours-erd.png)
 
 ## Tables
 
