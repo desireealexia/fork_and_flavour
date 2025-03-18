@@ -1,4 +1,5 @@
 {% extends 'base.html' %} 
+
 {% load static %} 
 {% load crispy_forms_tags %} 
 {%  block title %}Create Recipe - Fork & Flavour{% endblock %} 
@@ -20,7 +21,7 @@
         </div>
 
         <div class="mb-4">
-          <label class="mb-3">Ingredients*</label>
+          <p class="mb-3">Ingredients*</p>
           <div class="table-responsive">
             <table
               id="ingredient-table"
@@ -86,7 +87,6 @@
                 </tr>
                 {% endfor %}
               </tbody>
-              
             </table>
           </div>
           <button
@@ -99,7 +99,7 @@
         </div>
 
         <div class="mb-4">
-          <label class="mb-3">Instructions*</label>
+          <p class="mb-3">Instructions*</p>
           <textarea
             name="instructions"
             id="id_instructions"
