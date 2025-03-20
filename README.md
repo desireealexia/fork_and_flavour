@@ -246,13 +246,11 @@ By implementing these features, Fork & Flavour strives to provide an inclusive a
 ### HTML Validator
 
 To ensure the correctness of the HTML code, I used the W3C HTML Validator. The validation process revealed no errors in the HTML code across all pages of the website. This confirms that the HTML is properly structured and adheres to web standards.
-
 ![HTML Validator](docs/html_validator.png)
 
 ### CSS Validator
 
 For CSS validation, I utilised the W3C CSS Validator. The CSS code was thoroughly checked, and no errors were found. This indicates that the CSS is correctly formatted and conforms to the established CSS standards.
-
 ![CSS Validator](docs/css_validator.png)
 
 ## Bugs
