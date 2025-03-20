@@ -29,11 +29,10 @@ Fork & Flavour is a recipe manager website that allows authorised users to creat
   - [Deployment (Heroku)](#deployment-heroku)
   - [Local Deployment](#local-deployment)
 - [Technologies Used](#technologies-used)
-  - [Languages](#languages)
-  - [Design & Development Tools](#design--development-tools)
+  - [Languages Used](#languages-used)
+  - [Frameworks, Libraries & Tools](#frameworks-libraries--tools)
 - [Credits](#credits)
   - [Code](#code)
-  - [Research and Resources](#research-and-resources)
   - [Media](#media)
   - [Content](#content)
 
@@ -47,7 +46,7 @@ Fork & Flavour is a recipe manager website that allows authorised users to creat
 - **Minimalist Aesthetic:** Keep the design clean, modern, and visually appealing by incorporating ample white space and an easy-to-read font pairing.
 - **User-Centric Functionality:** Design the site with user goals in mind, ensuring that users can easily create, view, edit, and delete recipes without confusion or unnecessary steps.
 - **Accessible Design:** Ensure that the website is fully accessible, with considerations for colour contrast, font readability, and screen reader compatibility.
-**Engaging and Interactive Elements:** Implement interactive features like hover effects and checklist functionality for a more dynamic user experience.
+- **Engaging and Interactive Elements:** Implement interactive features like hover effects and checklist functionality for a more dynamic user experience.
 
 ## User Stories
 
@@ -87,22 +86,23 @@ For a clean and modern user interface, the following fonts have been chosen:
 - Use of high-quality images to showcase recipes with a playful and vibrant aesthetic.
 - Interactive elements and hover effects to engage users.
 
-You can view the logo below:
+You can view the logo [here](static/images/fork_and_flavour_logo.png)
 
-![Fork & Flavours Logo](static/images/fork_and_flavour_logo.png)
 ### Wireframes
 
 Homepage: The homepage features a clean layout with easy navigation to key areas, such as featured recipes and recipe categories.
-Add Recipe Page: A form-based page where logged-in users can add new recipes, complete with ingredient checklists and preparation steps.
-My Recipes Page: A page where users can view, edit, and delete their saved recipes.
-Profile Page (Scrapped): Originally intended for user profile details, this page was discarded during development because it closely mirrored the functionality of the My Recipes page.
+My Recipes Page: Users can view all their saved recipes.
+Search Results Page: Users are able to view their search results and filter the results based on their categories.
 
-- [Home Page Wireframe - View](#)
-- [Mobile Wireframe - View](#)
-- [Recipe Creation Page Wireframe - View](#)
+- [Home Page Wireframe - View](docs/home_wireframe.png)
+- [Recipe Page Wireframe - View](docs/recipe_page_wireframe.png)
+- [Search Results Page Wireframe - View](docs/search_results_wireframe.png)
+
+Profile Page (Scrapped): Originally intended for user profile details, this page was discarded during development because it closely mirrored the functionality of the My Recipes page.
+- [Profile Wireframe - View](docs/profile_wireframe.png)
 
 # Features
-- Responsive design, optimized for all device sizes.
+- Responsive design, optimised for all device sizes.
 - Interactive recipe listings and details.
 - Secure login and account management for registered users.
 - Dynamic recipe creation with ingredient checklists and preparation steps.
@@ -139,7 +139,7 @@ Stores recipe details, including the user who created it, its category, and inst
 | description   | text       | Nullable                            |
 | instructions  | text       | Not Null                            |
 | image         | image      | Nullable                            |
-| status        | integer    | Default: 1 (e.g., Published/Active) |
+| status        | integer    | Default: 0 (e.g., Published/Draft) |
 | created_at    | timestamp  | Default: current timestamp          |
 | updated_at    | timestamp  | Default: current timestamp          |
 
@@ -194,10 +194,10 @@ Fork & Flavour is designed with accessibility in mind to ensure a positive user 
 - All images, including recipe images, are provided with descriptive **alt text** to ensure that visually impaired users can understand the content of the images.
 
 ### **Colour Contrast**
-- The color scheme adheres to WCAG (Web Content Accessibility Guidelines) standards, with sufficient contrast between text and background colors to improve readability for users with visual impairments. Specifically, the primary color palette of **cal poly green**, **engineering orange**, and **chocolate cosmos** ensures strong contrast across the site.
-- The **Accessible Color Palette Builder** tool was used to ensure that the color choices meet WCAG guidelines for contrast, making the site more accessible to users with color blindness or low vision.
+- The colour scheme adheres to WCAG (Web Content Accessibility Guidelines) standards, with sufficient contrast between text and background colours to improve readability for users with visual impairments. Specifically, the primary colour palette of **cal poly green**, **engineering orange**, and **chocolate cosmos** ensures strong contrast across the site.
+- The **Accessible Color Palette Builder** tool was used to ensure that the colour choices meet WCAG guidelines for contrast, making the site more accessible to users with colour blindness or low vision.
 
-![Accessible Colour Combinations for Fork & Flavours](#)
+![Accessible Colour Combinations for Fork & Flavours](docs/accessible_colour_palette.png)
 
 ### **Form Labels and Fieldset**
 - All form fields, including input fields for creating and editing recipes, are properly labelled with clear instructions. Fieldset elements are used to group related fields together, and `<label>` elements are associated with input fields to make forms accessible.
@@ -243,6 +243,17 @@ By implementing these features, Fork & Flavour strives to provide an inclusive a
 
 ## Code Validation
 
+### HTML Validator
+
+To ensure the correctness of the HTML code, I used the W3C HTML Validator. The validation process revealed no errors in the HTML code across all pages of the website. This confirms that the HTML is properly structured and adheres to web standards.
+
+![HTML Validator](docs/html_validator.png)
+
+### CSS Validator
+
+For CSS validation, I utilised the W3C CSS Validator. The CSS code was thoroughly checked, and no errors were found. This indicates that the CSS is correctly formatted and conforms to the established CSS standards.
+
+![CSS Validator](docs/css_validator.png)
 
 ## Bugs
 
