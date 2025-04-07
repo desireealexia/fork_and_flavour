@@ -42,7 +42,6 @@ class RecipeIngredient(models.Model):
     ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
     quantity = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
     unit = models.CharField(max_length=50, null=True, blank=True)
-    is_optional = models.BooleanField(default=False)
 
     def format_quantity(self):
         """Convert decimal quantities to fractions or remove decimals if possible."""

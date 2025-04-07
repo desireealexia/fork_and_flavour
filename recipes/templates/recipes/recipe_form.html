@@ -33,7 +33,6 @@
                   <th>Ingredient Name</th>
                   <th>Quantity</th>
                   <th>Unit</th>
-                  <th>Optional</th>
                   <th>Remove</th>
                 </tr>
               </thead>
@@ -65,17 +64,7 @@
                       value="{{ ingredient.unit|default_if_none:'' }}"
                       class="form-control"
                     />
-                  </td>
-                  <td class="text-center">
-                    <input type="hidden" name="ingredient_optional[]" value="false" />
-                    <input
-                        type="checkbox"
-                        name="ingredient_optional[]"
-                        value="true"
-                        {% if ingredient.is_optional %}checked{% endif %}
-                        class="form-check-input"
-                    />
-                </td>                
+                  </td>                       
                   <td class="text-center">
                     <button
                       type="button"

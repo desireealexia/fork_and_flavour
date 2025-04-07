@@ -49,9 +49,6 @@
           {% if ingredient.quantity %} {{ ingredient.format_quantity }} {% endif %}
           {% if ingredient.unit %} {{ ingredient.unit }} {% endif %}
           {{ ingredient.ingredient.name }}
-          {% if ingredient.is_optional %}
-          <span class="text-muted">(Optional)</span>
-          {% endif %}
         </li>
         {% empty %}
         <li class="list-group-item">No ingredients listed.</li>

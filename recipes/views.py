@@ -96,41 +96,42 @@ class RecipeCreateView(LoginRequiredMixin, CreateView):
         self.object = form.save(commit=False)
         self.object.user = self.request.user
         self.object.slug = slugify(self.object.title)
-        
+
+        # Process the instructions to format them properly
         instructions_text = form.cleaned_data['instructions'].strip()
         instructions_list = instructions_text.split('\n')
         formatted_instructions = ''.join(f'<li>{step.strip()}</li>' for step in instructions_list if step.strip())
         self.object.instructions = f"<ol>{formatted_instructions}</ol>"
-    
-        self.object = form.save()
 
-        # Extract ingredient data from POST request
+        # Save the form data
+        self.object = form.save()
+        
+        # Clear old ingredients
+        models.RecipeIngredient.objects.filter(recipe=self.object).delete()
+
+        # Extract and save new ingredient data
         ingredient_names = self.request.POST.getlist('ingredient_name[]')
         ingredient_quantities = self.request.POST.getlist('ingredient_quantity[]')
         ingredient_units = self.request.POST.getlist('ingredient_unit[]')
-        ingredient_optionals = self.request.POST.getlist('ingredient_optional[]')
-
+    
         for i in range(len(ingredient_names)):
             name = ingredient_names[i].strip()
             quantity = ingredient_quantities[i].strip() or None
             unit = ingredient_units[i].strip() or ''
-            is_optional = 'true' in ingredient_optionals[i:i+1]
 
-            # Create or get the ingredient
             ingredient, created = models.Ingredient.objects.get_or_create(name=name)
-
-            # Create RecipeIngredient entry
+            
             models.RecipeIngredient.objects.create(
                 recipe=self.object,
                 ingredient=ingredient,
                 quantity=quantity,
                 unit=unit,
-                is_optional=is_optional
             )
-            
-        messages.success(self.request, 'Recipe created successfully!')
+        
+        messages.success(self.request, 'Recipe updated successfully!')
         return redirect(self.success_url)
-    
+
+
 class RecipeUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = models.Recipe
     fields = ['title', 'category', 'description', 'instructions', 'image', 'status']
@@ -146,12 +147,14 @@ class RecipeUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         self.object = form.save(commit=False)
         self.object.user = self.request.user
         self.object.slug = slugify(self.object.title)
-        
+
+        # Process the instructions to format them properly
         instructions_text = form.cleaned_data['instructions'].strip()
         instructions_list = instructions_text.split('\n')
         formatted_instructions = ''.join(f'<li>{step.strip()}</li>' for step in instructions_list if step.strip())
         self.object.instructions = f"<ol>{formatted_instructions}</ol>"
-    
+
+        # Save the form data
         self.object = form.save()
         
         # Clear old ingredients
@@ -161,21 +164,19 @@ class RecipeUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         ingredient_names = self.request.POST.getlist('ingredient_name[]')
         ingredient_quantities = self.request.POST.getlist('ingredient_quantity[]')
         ingredient_units = self.request.POST.getlist('ingredient_unit[]')
-        ingredient_optionals = self.request.POST.getlist('ingredient_optional[]')
-
+    
         for i in range(len(ingredient_names)):
             name = ingredient_names[i].strip()
             quantity = ingredient_quantities[i].strip() or None
             unit = ingredient_units[i].strip() or ''
-            is_optional = 'true' in ingredient_optionals[i:i+1]
-
+            
             ingredient, created = models.Ingredient.objects.get_or_create(name=name)
+            
             models.RecipeIngredient.objects.create(
                 recipe=self.object,
                 ingredient=ingredient,
                 quantity=quantity,
                 unit=unit,
-                is_optional=is_optional
             )
         
         messages.success(self.request, 'Recipe updated successfully!')
