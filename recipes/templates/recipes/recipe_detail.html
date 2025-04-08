@@ -1,43 +1,81 @@
-{% extends 'base.html' %}
-{% load static %}
-{% block title %}{{ recipe.title }} - Fork & Flavour{% endblock %}
-{% block content %}
+{% extends 'base.html' %} 
 
+{% load static %} 
+{% block title %}{{ recipe.title }} - Fork & Flavour{% endblock %} 
+
+{% block content %}
 <div class="container mt-5">
+  <div class="d-flex justify-content-start mb-3">
+    {% if request.user == recipe.user %}
+        <a href="{% url 'recipe_list' %}"> 
+          <i class="fas fa-arrow-left"></i> Back to Your Recipes</a>
+    {% elif request.META.HTTP_REFERER and 'search' in request.META.HTTP_REFERER %}
+        <a href="{{ request.META.HTTP_REFERER }}">
+            <i class="fas fa-arrow-left"></i> Back to Search Results
+        </a>
+    {% else %}
+        <a href="{% url 'home' %}">
+          <i class="fas fa-arrow-left"></i> Back to Main Page</a>
+    {% endif %}
+</div>
   <!-- Recipe Header with Image on the Right -->
   <div class="row align-items-center">
     <div class="col-md-8">
-      <div class="d-flex justify-content-between align-items-center">
-        <h1 class="mb-0">{{ recipe.title }}</h1>
-
+      <div
+        class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-2"
+      >
+        <div class="flex-grow-1 recipe-title">
+          <h1 class="mb-0">{{ recipe.title }}</h1>
+        </div>
         <!-- Edit and Delete Buttons (only visible to the recipe author) -->
         {% if request.user == recipe.user %}
-        <div class="d-flex gap-2">
-          <a href="{% url 'recipe_update' recipe.slug %}" class="btn btn-warning btn-edit mx-2 rounded-pill shadow-sm" data-toggle="tooltip" data-placement="top" title="Edit this recipe">
+        <div
+          class="d-flex flex-row flex-wrap align-items-center gap-2 mt-2 mb-2"
+        >
+          <a
+            href="{% url 'recipe_update' recipe.slug %}"
+            class="btn btn-warning rounded-pill shadow-sm d-flex align-items-center gap-2 px-3 py-2"
+          >
             <i class="fas fa-edit"></i> <span class="btn-text">Edit</span>
           </a>
-          <a href="{% url 'recipe_delete' recipe.slug %}" class="btn btn-danger btn-delete mx-2 rounded-pill shadow-sm" data-toggle="tooltip" data-placement="top" title="Delete this recipe">
-            <i class="fas fa-trash-alt"></i> <span class="btn-text">Delete</span>
+          <a
+            href="{% url 'recipe_delete' recipe.slug %}"
+            class="btn btn-danger rounded-pill shadow-sm d-flex align-items-center gap-2 px-3 py-2"
+          >
+            <i class="fas fa-trash-alt"></i>
+            <span class="btn-text">Delete</span>
           </a>
         </div>
         {% endif %}
       </div>
-
       <p class="text-muted">Recipe by {{ recipe.user }}</p>
       <p class="text-muted"><strong>Category:</strong> {{ recipe.category }}</p>
-      <p class="text-muted">Created on {{ recipe.created_at|date:"F j, Y" }} | Updated on {{ recipe.updated_at|date:"F j, Y" }}</p>
+      <p class="text-muted">
+        {% if recipe.created_at|date:"Y-m-d" == recipe.updated_at|date:"Y-m-d" %}
+            <span>Created on {{ recipe.created_at|date:"F j, Y" }}</span>
+        {% else %}
+            <span>Updated on {{ recipe.updated_at|date:"F j, Y" }}</span>
+        {% endif %}
+      </p>
+      <hr>
       <p>{{ recipe.description }}</p>
     </div>
-
     <div class="col-md-4 text-center">
       {% if recipe.image %}
-      <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}" class="rounded shadow-sm recipe-img" />
+      <img
+        src="{{ recipe.image.url }}"
+        alt="{{ recipe.title }}"
+        class="img-fluid rounded shadow-sm recipe-img"
+      />
       {% else %}
-      <img src="{% static 'images/default-recipe.jpg' %}" alt="Default Recipe Image" class="rounded shadow-sm recipe-img" />
+      <img
+        src="{% static 'images/default-recipe.jpg' %}"
+        alt="Default Recipe Image"
+        class="img-fluid rounded shadow-sm recipe-img"
+      />
       {% endif %}
     </div>
   </div>
-
   <!-- Ingredients Section -->
   <div class="row mt-4">
     <div class="col-12">
@@ -46,8 +84,12 @@
         {% for ingredient in ingredients %}
         <li class="list-group-item d-flex align-items-center">
           <input type="checkbox" name="ingredient-checkbox" />
-          {% if ingredient.quantity %} {{ ingredient.format_quantity }} {% endif %}
-          {% if ingredient.unit %} {{ ingredient.unit }} {% endif %}
+          {% if ingredient.quantity %} 
+            {{ ingredient.format_quantity }} 
+          {% endif %} 
+          {% if ingredient.unit %} 
+            {{ ingredient.unit }} 
+          {% endif %} 
           {{ ingredient.ingredient.name }}
         </li>
         {% empty %}
@@ -56,31 +98,35 @@
       </ul>
     </div>
   </div>
-
   <!-- Preparation Steps Section -->
   <div class="row mt-4">
-    <div class="col-12">
-      <h2>Preparation Steps</h2>
-      {{ recipe.instructions|safe }}
+    <div class="col-12 col-md-10 offset-md-1 px-3 px-md-0">
+      <h2 class="fs-3 text-md-start">Preparation Steps</h2>
+      <div class="mt-3 fs-5 lh-lg">{{ recipe.instructions|safe }}</div>
     </div>
   </div>
-
   <!-- Social Share Section -->
   <div class="row mt-4">
     <div class="col-12 text-center">
       <p>Share this recipe:</p>
-      <div class="d-flex justify-content-center">
-        <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank" class="btn btn-primary mx-2 rounded-pill">
+      <div class="d-flex flex-column flex-sm-row justify-content-center gap-2">
+        <a
+          href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}"
+          target="_blank"
+          class="btn btn-primary mx-2 rounded-pill"
+        >
           <i class="fab fa-facebook-f"></i> Facebook
         </a>
-        <a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}&text=Check%20out%20this%20delicious%20recipe!" target="_blank" class="btn btn-primary mx-2 rounded-pill">
+        <a
+          href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}&text=Check%20out%20this%20delicious%20recipe!"
+          target="_blank"
+          class="btn btn-primary mx-2 rounded-pill"
+        >
           <i class="fab fa-twitter"></i> Twitter
         </a>
       </div>
     </div>
   </div>
 </div>
-
-
 
 {% endblock %}

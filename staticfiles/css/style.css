@@ -61,6 +61,10 @@ a:hover {
   text-decoration: none;
 }
 
+li {
+  font-size: 16px;
+}
+
 /* ============================= */
 /*         NAVIGATION BAR        */
 /* ============================= */
@@ -118,7 +122,11 @@ form.d-flex {
 
 #search-bar {
   border: 2px solid var(--seashell);
-  width: 400px;
+  width: 300px;
+}
+
+#search-bar::placeholder {
+  font-size: 15px;
 }
 
 #search-bar:focus,
@@ -158,6 +166,10 @@ form.d-flex {
   color: var(--chocolate-cosmos);
 }
 
+#sidebar {
+  transition: all 0.3s ease-in-out;
+}
+
 /* ============================= */
 /*           BUTTONS             */
 /* ============================= */
@@ -191,6 +203,15 @@ form.d-flex {
 .btn-delete {
     width: 120px;
 }
+
+#view-recipes-btn {
+  padding: 10px 20px;
+}
+
+.btn-warning:hover, .btn-danger:hover {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+}
+
 /* ============================= */
 /*             CARDS             */
 /* ============================= */
@@ -289,7 +310,7 @@ footer {
 }
 
 footer span {
-  font-size: 1rem;
+  font-size: 14px;
 }
 
 /* ============================= */
@@ -305,8 +326,9 @@ footer span {
 /* ============================= */
 
 .recipe-img {
+  max-height: 300px;
   height: 250px;
-  width: 400px;
+  width: 300px;
   object-fit: cover;
 }
 
@@ -342,5 +364,23 @@ footer span {
   .btn-delete {
     width: 50px;
     height: 50px; 
+  }
+
+  .recipe-img {
+    width: 250px;
+  }
+
+  .recipe-title {
+    width: 300px;
+  }
+}
+
+@media (max-width: 576px) {
+  .list-group-item input[type="checkbox"] {
+    margin-right: 0.5rem;
+  }
+
+  .recipe-title {
+    width: 100%;
   }
 }

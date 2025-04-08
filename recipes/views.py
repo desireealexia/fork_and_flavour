@@ -7,9 +7,9 @@ from django.utils.text import slugify
 from django.urls import reverse_lazy
 from django.views import generic
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView
-from django.http import Http404
 
 from . import models
+
 
 # Create your views here.
 # View to list all recipes on index.html
@@ -17,7 +17,7 @@ class RecipeListView(generic.ListView):
     model = models.Recipe
     template_name = "recipes/index.html"
     queryset = models.Recipe.objects.filter(status=1).order_by('-created_at')
-    paginate_by = 6
+    paginate_by = 12
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -36,7 +36,8 @@ def recipe_search(request):
     
     # Filter recipes based on the search query
     recipes = models.Recipe.objects.filter(
-        Q(title__icontains=query) | Q(ingredients__ingredient__name__icontains=query)
+        Q(title__icontains=query) | Q(ingredients__ingredient__name__icontains=query),
+        status=1 
     ).distinct()
 
     if category_id:
@@ -208,6 +209,7 @@ class UserRecipeListView(LoginRequiredMixin, ListView):
     template_name = 'recipe_list.html'
     context_object_name = 'recipes'
     queryset = models.Recipe.objects.all().order_by('-created_at')
+    paginate_by = 9
     
     def get_queryset(self):
         # Only fetch recipes for the logged-in user

@@ -107,6 +107,12 @@ Profile Page (Scrapped): Originally intended for user profile details, this page
 - Secure login and account management for registered users.
 - Dynamic recipe creation with ingredient checklists and preparation steps.
 
+## Future Features
+
+### Optional Ingredient Feature (Pending)
+
+I attempted to implement an optional ingredient feature where users could mark ingredients as optional during recipe creation. Unfortunately, due to some technical issues, the feature is currently removed from the project. While this feature won't be available in the current version, it remains a potential enhancement for future updates. The goal of the feature was to allow users to specify which ingredients are optional, improving the flexibility and customisation of the recipes.
+
 # Database Schema
 
 Fork & Flavour uses a relational database to store user accounts, recipes, ingredients, and categories. Below is the **Entity-Relationship Diagram (ERD)** representing the database structure:
@@ -161,7 +167,7 @@ Links recipes to their ingredients, with quantities and measurement units.
 | ingredient     | integer    | Foreign Key → ingredient.id              |
 | quantity       | decimal    | Not Null                                 |
 | unit           | varchar    | Nullable                                 |
-| is_optional    | boolean    | Default: false                           |
+| is_optional    | boolean    | Default: false                           |  (Originally intended to mark ingredients as optional, feature has been removed)
 
 ### **Category**
 Stores recipe categories (e.g., "Breakfast", "Dessert").

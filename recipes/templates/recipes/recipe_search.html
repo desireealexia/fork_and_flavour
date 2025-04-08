@@ -1,14 +1,47 @@
 {% extends "base.html" %}
-{% load static %} 
-{% block title %}Search Results - Fork & Flavour{% endblock %}
-{% block content %}
 
+{% load static %}
+{% block title %}Search Results - Fork & Flavour{% endblock %}
+
+{% block content %}
 <div class="container mt-5">
     <h1>Search Results for '<span id="search-query">{{ query }}</span>'</h1>
 
     <div class="row">
-<!-- Sidebar for Category Filters -->
-<div class="col-md-3">
+        <!-- Button to toggle the sidebar (visible on small and medium screens) -->
+<button class="btn btn-primary d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#sidebar" aria-expanded="false" aria-controls="sidebar">
+    <i class="fas fa-bars"></i> Filters
+</button>
+
+<!-- Sidebar for Category Filters (Always visible on desktop and larger screens) -->
+<div class="col-12 col-md-3 d-none d-md-block" id="sidebar">
+    <div class="card shadow-sm p-3">
+        <h4>Filter by Category</h4>
+        <ul class="list-unstyled">
+            <!-- Clear Filters Button -->
+            <li class="mb-2">
+                <a href="{% url 'recipe_search' %}?query={{ query }}" 
+                   class="btn btn-danger w-100 {% if not category_id %}active{% endif %}">
+                   Clear Filters
+                </a>
+            </li>
+
+            <!-- Category List -->
+            {% for category in categories %}
+            <li>
+                <a href="{% url 'recipe_search' %}?query={{ query }}&category={{ category.id }}"
+                class="d-flex justify-content-between category-option
+                        {% if category.id|stringformat:"s" == category_id|stringformat:"s" %}selected-filter{% endif %}">
+                    {{ category.name }}
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+<!-- Sidebar for Category Filters (Collapsible on mobile and tablet) -->
+<div class="col-12 col-md-3 collapse d-md-none" id="sidebar">
     <div class="card shadow-sm p-3">
         <h4>Filter by Category</h4>
         <ul class="list-unstyled">
@@ -36,8 +69,8 @@
 
 
         <!-- Recipe Results -->
-        <div class="col-md-9 mt-4">
-            <div class="row row-cols-1 row-cols-md-3 g-4">
+        <div class="col-12 col-md-9 mt-4">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
                 {% for recipe in recipes %}
                     <div class="col mb-4">
                         <div class="card shadow-sm h-100">
@@ -48,7 +81,7 @@
                             {% endif %}
                             <div class="card-body d-flex flex-column">
                                 <h5 class="card-title">{{ recipe.title }}</h5>
-                                <p class="card-text">{{ recipe.description|truncatewords:15 }}</p>
+                                <p class="card-text d-none d-sm-none d-md-none d-lg-block">{{ recipe.description|truncatewords:10 }}</p>
                                 <a href="{% url 'recipe_detail' recipe.slug %}" class="btn btn-primary mt-auto rounded-pill">View Recipe</a>
                             </div>
                         </div>
@@ -65,25 +98,25 @@
                     <ul class="pagination">
                         {% if recipes.has_previous %}
                             <li class="page-item">
-                                <a class="page-link" href="?query={{ query }}&category={{ selected_category }}&page=1">&laquo; First</a>
+                                <a class="page-link text-dark" href="?query={{ query }}&category={{ selected_category }}&page=1">&laquo; First</a>
                             </li>
                             <li class="page-item">
-                                <a class="page-link" href="?query={{ query }}&category={{ selected_category }}&page={{ recipes.previous_page_number }}">Previous</a>
+                                <a class="page-link text-dark" href="?query={{ query }}&category={{ selected_category }}&page={{ recipes.previous_page_number }}">Previous</a>
                             </li>
                         {% endif %}
 
                         <li class="page-item disabled">
-                            <span class="page-link">
+                            <span class="page-link bg-light">
                                 Page {{ recipes.number }} of {{ recipes.paginator.num_pages }}
                             </span>
                         </li>
 
                         {% if recipes.has_next %}
                             <li class="page-item">
-                                <a class="page-link" href="?query={{ query }}&category={{ selected_category }}&page={{ recipes.next_page_number }}">Next</a>
+                                <a class="page-link text-dark" href="?query={{ query }}&category={{ selected_category }}&page={{ recipes.next_page_number }}">Next</a>
                             </li>
                             <li class="page-item">
-                                <a class="page-link" href="?query={{ query }}&category={{ selected_category }}&page={{ recipes.paginator.num_pages }}">Last &raquo;</a>
+                                <a class="page-link text-dark" href="?query={{ query }}&category={{ selected_category }}&page={{ recipes.paginator.num_pages }}">Last &raquo;</a>
                             </li>
                         {% endif %}
                     </ul>
@@ -93,4 +126,5 @@
         </div>
     </div>
 </div>
+
 {% endblock %}
