@@ -21,13 +21,9 @@ Fork & Flavour is a recipe manager website that allows authorised users to creat
   - [Features Testing](#features-testing)
   - [Browser Compatibility](#browser-compatibility)
   - [Responsiveness Testing](#responsiveness-testing)
-  - [Accessibility Testing](#accessibility-testing)
   - [Code Validation](#code-validation)
   - [Bugs](#bugs)
   - [Lighthouse Testing](#lighthouse-testing)
-- [Deployment](#deployment)
-  - [Deployment (Heroku)](#deployment-heroku)
-  - [Local Deployment](#local-deployment)
 - [Technologies Used](#technologies-used)
   - [Languages Used](#languages-used)
   - [Frameworks, Libraries & Tools](#frameworks-libraries--tools)
@@ -216,13 +212,13 @@ Stores ingredient details for recipes.
 Links recipes to their ingredients, with quantities and measurement units.
 
 | Column      | Data Type | Constraints                 |
-| ----------- | --------- | --------------------------- | ------------------------------------------------------------------------------- |
+| ----------- | --------- | --------------------------- |
 | id          | integer   | Primary Key                 |
 | recipe      | integer   | Foreign Key → recipe.id     |
 | ingredient  | integer   | Foreign Key → ingredient.id |
 | quantity    | decimal   | Not Null                    |
 | unit        | varchar   | Nullable                    |
-| is_optional | boolean   | Default: false              | (Originally intended to mark ingredients as optional, feature has been removed) |
+| is_optional | boolean   | Default: false              | (Originally intended to mark ingredients as optional, feature has been removed)
 
 ### **Category**
 
@@ -324,18 +320,20 @@ By implementing these features, Fork & Flavour strives to provide an inclusive a
 ### HTML Validator
 
 To ensure the correctness of the HTML code, I used the W3C HTML Validator. The validation process revealed no errors in the HTML code across all pages of the website. This confirms that the HTML is properly structured and adheres to web standards.
+
 ![HTML Validator](docs/%20html_validator.png)
 
 ### CSS Validator
 
 For CSS validation, I utilised the W3C CSS Validator. The CSS code was thoroughly checked, and no errors were found. This indicates that the CSS is correctly formatted and conforms to the established CSS standards.
+
 ![CSS Validator](docs/%20css_validator.png)
 
 ## Bugs
 
 ## Lighthouse Testing
 
-I used Lighthouse to audit the performance and quality of this website.
+I used Lighthouse to audit the performance and quality of this website on desktop and mobile.
 
 ### Home Page
 
@@ -359,47 +357,25 @@ I used Lighthouse to audit the performance and quality of this website.
 
 ### My Recipes Page
 
-![Lighthouse Testing - My Recipes Page (Desktop) ](docs/lighthouse-my_recipe-desktop.pngg)
+![Lighthouse Testing - My Recipes Page (Desktop) ](docs/lighthouse-my_recipe-desktop.png)
 ![Lighthouse Testing - My Recipes Page (Mobile) ](docs/lighthouse-my_recipe-mobile.png)
-
-# Deployment
-
-## Deployment (Heroku)
-
-1. Clone this repository.
-2. Run `pip install -r requirements.txt` to install dependencies.
-3. Set up the necessary environment variables (e.g., secret key, database URL).
-4. Deploy the project on [Heroku](https://www.heroku.com/).
-
-## Local Deployment
-
-1. Clone the repository: `git clone <repository-url>`
-2. Install dependencies: `pip install -r requirements.txt`
-3. Set up the database: `python manage.py migrate`
-4. Run the development server: `python manage.py runserver`
-
-Visit `http://127.0.0.1:8000` in your browser to view the project locally.
 
 # Technologies Used
 
 ### Languages Used
 
-- HTML
-- CSS
+- HTML/CSS
 - JavaScript
 - Python
-- SQL
 
 ### Frameworks, Libraries & Tools
 
-- **Django**: Backend framework to manage data and user authentication.
-- **Django Allauth**: User authentication for login and account management.
-- **Bootstrap 5**: For responsive grid layout and components.
-- **Font Awesome**: For icons and aesthetic elements.
-- **Git**: Version control for project management.
-- **GitHub**: To store the project's code and manage versions.
-- Heroku
-  [Accessible Color Matrix Tool](https://toolness.github.io/accessible-color-matrix/?n=Cal%20Poly%20Green&n=Engineering%20Orange&n=Chocolate%20Cosmos&n=Buff&n=Seashell&n=Jet&v=1F4F31&v=B13F26&v=5B122A&v=E49E6B&v=FBF1EE&v=333333)
+- Django with Django Allauth,  SummerNote and Crispy Forms
+- PostgreSQL Database
+- Bootstrap
+- Font Awesome
+- Git/GitHub
+- Heroku (deployment)
 
 # Credits
 
@@ -420,13 +396,13 @@ Visit `http://127.0.0.1:8000` in your browser to view the project locally.
 
 All photos used on the site are sourced from [Pexels](https://www.pexels.com/) and are free for commercial use with attribution where applicable:
 
-- Photo by [Lisa](https://www.pexels.com/photo/person-holding-sandwich-1321942/) — Person holding sandwich
-- Photo by [Diego Romero](https://www.pexels.com/photo/salad-with-bread-19087691/) — Salad with bread
-- Photo by [Jose Prada](https://www.pexels.com/photo/chocolate-fondant-with-ice-creams-20522414/) — Chocolate fondant with ice creams
-- Photo by [Polina Tankilevitch](https://www.pexels.com/photo/fresh-sliced-vegetables-served-with-sauce-in-black-bowl-on-tray-3872351/) — Fresh sliced vegetables in black bowl
-- Photo by [ROMAN ODINTSOV](https://www.pexels.com/photo/close-up-of-ice-cream-with-a-mango-5060371/) — Mango ice cream
-- Photo by [Alberta Studios](https://www.pexels.com/photo/meat-stout-with-lemon-9738981/) — Meat stout with lemon
-- Photo by [Karina Ustiuzhanina](https://www.pexels.com/photo/cooked-food-on-blue-ceramic-plate-13778610/) — Food on blue ceramic plate
-- Photo by [Dana Tentis](https://www.pexels.com/photo/round-frying-pan-with-eggs-691077/) — Eggs in frying pan
-- Photo by [Angele J](https://www.pexels.com/photo/cooked-pasta-with-sliced-tomatoes-and-green-leafy-128408/) — Pasta with tomatoes
-- Photo by [solod_sha](https://www.pexels.com/photo/pancakes-on-ceramic-plate-8605856/) — Pancakes on ceramic plate
+- Photo by [Lisa](https://www.pexels.com/photo/person-holding-sandwich-1321942/) — Avocado toast
+- Photo by [Diego Romero](https://www.pexels.com/photo/salad-with-bread-19087691/) — Chicken caesar salad
+- Photo by [Jose Prada](https://www.pexels.com/photo/chocolate-fondant-with-ice-creams-20522414/) — Chocolate lava cake
+- Photo by [Polina Tankilevitch](https://www.pexels.com/photo/fresh-sliced-vegetables-served-with-sauce-in-black-bowl-on-tray-3872351/) — Hummus and veggie sticks
+- Photo by [ROMAN ODINTSOV](https://www.pexels.com/photo/close-up-of-ice-cream-with-a-mango-5060371/) — Mango sorbet
+- Photo by [Alberta Studios](https://www.pexels.com/photo/meat-stout-with-lemon-9738981/) — Butter chicken
+- Photo by [Karina Ustiuzhanina](https://www.pexels.com/photo/cooked-food-on-blue-ceramic-plate-13778610/) — Falafel wrap
+- Photo by [Dana Tentis](https://www.pexels.com/photo/round-frying-pan-with-eggs-691077/) — Shakshuka
+- Photo by [Angele J](https://www.pexels.com/photo/cooked-pasta-with-sliced-tomatoes-and-green-leafy-128408/) — Spaghetti bolognese
+- Photo by [solod_sha](https://www.pexels.com/photo/pancakes-on-ceramic-plate-8605856/) — Classic pancakes
