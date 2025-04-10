@@ -36,7 +36,6 @@ Fork & Flavour is a recipe manager website that allows authorised users to creat
   - [Media](#media)
   - [Content](#content)
 
-
 # User Experience (UX)
 
 ## Project Goals
@@ -83,6 +82,7 @@ For a clean and modern user interface, the following fonts have been chosen:
 - Body Font: Open Sans — A clean, sans-serif font for body text, offering readability and balance
 
 ### Imagery
+
 - Use of high-quality images to showcase recipes with a playful and vibrant aesthetic.
 - Interactive elements and hover effects to engage users.
 
@@ -99,19 +99,70 @@ Search Results Page: Users are able to view their search results and filter the 
 - [Search Results Page Wireframe - View](docs/search_results_wireframe.png)
 
 Profile Page (Scrapped): Originally intended for user profile details, this page was discarded during development because it closely mirrored the functionality of the My Recipes page.
+
 - [Profile Wireframe - View](docs/profile_wireframe.png)
 
 # Features
-- Responsive design, optimised for all device sizes.
-- Interactive recipe listings and details.
-- Secure login and account management for registered users.
-- Dynamic recipe creation with ingredient checklists and preparation steps.
+
+- **User Authentication**  
+  Fork & Flavour provides secure user authentication, allowing users to register for an account, log in, and log out safely. This ensures that users can access and manage their own recipe collections with ease.
+
+![Login](docs/log-in.png)
+![Sign Out](docs/sign-out.png)
+
+- **Recipe Creation**  
+  Users can create new recipes by filling in details such as the recipe title, a list of ingredients, detailed preparation steps, and the option to upload images. This allows users to share their favourite dishes and cooking tips with the community.
+
+![Recipe Creation](docs/create-recipe.png)
+
+- **Edit & Delete Recipes**  
+  Users have full control over their recipes. They can edit any part of their recipe - from ingredients to cooking instructions - and delete their recipes if needed. This flexibility ensures that the content stays relevant and up-to-date.
+
+![Edit & Delete Recipes](docs/edit-and-delete-btns.png)
+
+- **Browse Recipes**  
+  Users can browse a wide variety of recipes submitted by others. The browsing experience is intuitive and simple, allowing for effortless discovery of new meals to try.
+
+- **Search & Filter**  
+  The search functionality allows users to find recipes by name or by ingredient. The filtering options let users narrow down results based on categories like Breakfast, Dessert, Snack, and more, making it easy to find the perfect recipe for any occasion.
+
+![Search](docs/search.png)
+![Filter](docs/filter-search.png)
+
+- **Categories**  
+  Recipes are categorised into common meal types such as Breakfast, Lunch, Dinner,etc, allowing users to quickly explore recipes based on their desired meal type.
+
+- **Social Media Sharing**  
+  Recipes can be shared directly on popular social media platforms such as Facebook and Twitter. This makes it easy for users to share their favourite recipes with friends and family or discover new recipes from others.
+
+![Social Media Sharing](docs/share-recipes.png)
+
+- **Responsive Design**  
+  The website is fully responsive, ensuring an optimal viewing experience on any device, whether it’s a desktop, tablet, or smartphone. Users can access their recipes and browse the site without any loss of functionality.
+
+- **Admin Dashboard**  
+  Administrators have access to a powerful dashboard that allows them to manage user accounts, moderate recipes, and oversee the overall content of the site. This helps maintain a safe and organised environment for all users.
+
+![Admin Dashboard](docs/admin-dashboard.png)
 
 ## Future Features
 
-### Optional Ingredient Feature (Pending)
+While the website already includes a solid set of features, we are planning to add even more functionality to improve the user experience:
 
-I attempted to implement an optional ingredient feature where users could mark ingredients as optional during recipe creation. Unfortunately, due to some technical issues, the feature is currently removed from the project. While this feature won't be available in the current version, it remains a potential enhancement for future updates. The goal of the feature was to allow users to specify which ingredients are optional, improving the flexibility and customisation of the recipes.
+- **User Comments & Ratings**  
+  Users will soon be able to leave comments and rate recipes they’ve tried. This feature will help foster a sense of community, allowing users to share their experiences and offer feedback on different dishes.
+
+- **Weekly Featured Recipes**  
+  Every week, a selection of standout recipes will be featured on the homepage. These recipes will be hand picked for their creativity, popularity, or seasonal relevance, giving users fresh inspiration each week.
+
+- **Shopping List Generator**  
+  Users will be able to generate a shopping list based on the ingredients of a selected recipe. This feature will help streamline the cooking process by allowing users to easily gather all the necessary ingredients for their chosen dishes.
+
+- **Optional Ingredients**  
+  A new feature will allow users to mark certain ingredients as optional, making it easier to adjust recipes based on dietary preferences or ingredient availability.
+
+- **Favourite Recipes**  
+  Users will be able to save their favourite recipes to a personal collection for easy access. This feature will help users quickly find and revisit the recipes they love most.
 
 # Database Schema
 
@@ -122,60 +173,65 @@ Fork & Flavour uses a relational database to store user accounts, recipes, ingre
 ## Tables
 
 ### **User**
+
 Stores user account details.
 
-| Column       | Data Type  | Constraints           |
-|--------------|------------|-----------------------|
-| id           | integer    | Primary Key           |
-| username     | varchar    | Unique, Not Null      |
-| email        | varchar    | Unique, Not Null      |
-| password     | varchar    | Not Null              |
-| date_joined  | timestamp  | Default: current timestamp |
+| Column      | Data Type | Constraints                |
+| ----------- | --------- | -------------------------- |
+| id          | integer   | Primary Key                |
+| username    | varchar   | Unique, Not Null           |
+| email       | varchar   | Unique, Not Null           |
+| password    | varchar   | Not Null                   |
+| date_joined | timestamp | Default: current timestamp |
 
 ### **Recipe**
+
 Stores recipe details, including the user who created it, its category, and instructions.
 
-| Column        | Data Type  | Constraints                         |
-|---------------|------------|-------------------------------------|
-| id            | integer    | Primary Key                         |
-| title         | varchar    | Not Null                            |
-| slug          | slug       | Unique, Not Null                    |
-| user          | integer    | Foreign Key → user.id               |
-| category      | varchar    | Foreign Key → category.id           |
-| description   | text       | Nullable                            |
-| instructions  | text       | Not Null                            |
-| image         | image      | Nullable                            |
-| status        | integer    | Default: 0 (e.g., Published/Draft) |
-| created_at    | timestamp  | Default: current timestamp          |
-| updated_at    | timestamp  | Default: current timestamp          |
+| Column       | Data Type | Constraints                        |
+| ------------ | --------- | ---------------------------------- |
+| id           | integer   | Primary Key                        |
+| title        | varchar   | Not Null                           |
+| slug         | slug      | Unique, Not Null                   |
+| user         | integer   | Foreign Key → user.id              |
+| category     | varchar   | Foreign Key → category.id          |
+| description  | text      | Nullable                           |
+| instructions | text      | Not Null                           |
+| image        | image     | Nullable                           |
+| status       | integer   | Default: 0 (e.g., Published/Draft) |
+| created_at   | timestamp | Default: current timestamp         |
+| updated_at   | timestamp | Default: current timestamp         |
 
 ### **Ingredient**
+
 Stores ingredient details for recipes.
 
-| Column        | Data Type  | Constraints           |
-|---------------|------------|-----------------------|
-| id            | integer    | Primary Key           |
-| name          | varchar    | Not Null              |
+| Column | Data Type | Constraints |
+| ------ | --------- | ----------- |
+| id     | integer   | Primary Key |
+| name   | varchar   | Not Null    |
 
 ### **RecipeIngredient**
+
 Links recipes to their ingredients, with quantities and measurement units.
 
-| Column         | Data Type  | Constraints                              |
-|----------------|------------|------------------------------------------|
-| id             | integer    | Primary Key                              |
-| recipe         | integer    | Foreign Key → recipe.id                  |
-| ingredient     | integer    | Foreign Key → ingredient.id              |
-| quantity       | decimal    | Not Null                                 |
-| unit           | varchar    | Nullable                                 |
-| is_optional    | boolean    | Default: false                           |  (Originally intended to mark ingredients as optional, feature has been removed)
+| Column      | Data Type | Constraints                 |
+| ----------- | --------- | --------------------------- | ------------------------------------------------------------------------------- |
+| id          | integer   | Primary Key                 |
+| recipe      | integer   | Foreign Key → recipe.id     |
+| ingredient  | integer   | Foreign Key → ingredient.id |
+| quantity    | decimal   | Not Null                    |
+| unit        | varchar   | Nullable                    |
+| is_optional | boolean   | Default: false              | (Originally intended to mark ingredients as optional, feature has been removed) |
 
 ### **Category**
+
 Stores recipe categories (e.g., "Breakfast", "Dessert").
 
-| Column        | Data Type  | Constraints           |
-|---------------|------------|-----------------------|
-| id            | integer    | Primary Key           |
-| name          | varchar    | Unique, Not Null      |
+| Column | Data Type | Constraints      |
+| ------ | --------- | ---------------- |
+| id     | integer   | Primary Key      |
+| name   | varchar   | Unique, Not Null |
 
 ## Relationships
 
@@ -191,36 +247,46 @@ This database structure ensures efficient data management for storing, retrievin
 Fork & Flavour is designed with accessibility in mind to ensure a positive user experience for everyone, including people with disabilities. Below are some of the key accessibility features implemented in the project:
 
 ### **Semantic HTML**
+
 - The website uses semantic HTML elements to provide a meaningful structure for screen readers. Elements like `<header>`, `<main>`, `<footer>` and `<nav>` are used to improve navigation for assistive technologies.
 
 ### **Keyboard Navigation**
+
 - All interactive elements, such as links, buttons, and form fields, are fully navigable using the keyboard. This ensures that users who cannot use a mouse can still navigate and interact with the site efficiently.
 
 ### **Alt Text for Images**
+
 - All images, including recipe images, are provided with descriptive **alt text** to ensure that visually impaired users can understand the content of the images.
 
 ### **Colour Contrast**
+
 - The colour scheme adheres to WCAG (Web Content Accessibility Guidelines) standards, with sufficient contrast between text and background colours to improve readability for users with visual impairments. Specifically, the primary colour palette of **cal poly green**, **engineering orange**, and **chocolate cosmos** ensures strong contrast across the site.
 - The **Accessible Color Palette Builder** tool was used to ensure that the colour choices meet WCAG guidelines for contrast, making the site more accessible to users with colour blindness or low vision.
 
 ![Accessible Colour Combinations for Fork & Flavours](docs/accessible_colour_palette.png)
 
 ### **Form Labels and Fieldset**
+
 - All form fields, including input fields for creating and editing recipes, are properly labelled with clear instructions. Fieldset elements are used to group related fields together, and `<label>` elements are associated with input fields to make forms accessible.
 
 ### **Focus States**
+
 - Focus states are clearly visible on all interactive elements, making it easier for users navigating with the keyboard or other assistive technologies to identify which element is currently active.
 
 ### **Responsive Design**
+
 - The website is fully responsive and adapts to various screen sizes, making it accessible to users on desktop, tablet, and mobile devices. The layout adjusts to fit the screen size and orientation, ensuring a seamless experience for all users.
 
 ### **Error Handling and Feedback**
+
 - Form validation is implemented with clear error messages, providing users with helpful feedback when something goes wrong. These messages are announced to users with assistive technologies, ensuring that everyone can address any issues.
 
 ### **Text Alternatives for Interactive Elements**
+
 - Interactive elements such as buttons and links are clearly described with text labels, making them accessible for screen reader users and those with limited vision.
 
-###  **ARIA (Accessible Rich Internet Applications)**
+### **ARIA (Accessible Rich Internet Applications)**
+
 - ARIA roles and properties are used where necessary to enhance the accessibility of dynamic content (e.g., recipe creation forms) and complex user interactions (e.g., modal pop-ups or dropdowns).
 
 By implementing these features, Fork & Flavour strives to provide an inclusive and accessible experience for all users, regardless of their abilities or disabilities.
@@ -229,41 +295,72 @@ By implementing these features, Fork & Flavour strives to provide an inclusive a
 
 ## Features Testing
 
-
+| Feature | Test case | Outcome |
+| :-----: | :-------: | :-----: |
+|         |           |         |
 
 ## User Stories Testing
 
-
-
 ## Browser Compatibility
 
-
+| Browser Tested | Intended Appearance | Intended Responsiveness |
+| :------------: | :-----------------: | :---------------------: |
+|     Chrome     |        Good         |          Good           |
+|     Safari     |        Good         |          Good           |
+| Microsoft Edge |        Good         |          Good           |
 
 ## Responsiveness Testing
 
-
-
-## Accessibility Testing
-
-
+|    Device Tested    | Site responsive >= 700px | Site responsive < 699px> | Renders as expected |
+| :-----------------: | :----------------------: | :----------------------: | :-----------------: |
+|  iPhone 14 Pro Max  |           N/A            |           Good           |        Good         |
+| Samsung Galaxy S8 + |           N/A            |           Good           |        Good         |
+|      iPad Air       |           Good           |           N/A            |        Good         |
+|   MacBook Air 13"   |           Good           |           N/A            |        Good         |
+|     23" monitor     |           Good           |           N/A            |        Good         |
 
 ## Code Validation
 
 ### HTML Validator
 
 To ensure the correctness of the HTML code, I used the W3C HTML Validator. The validation process revealed no errors in the HTML code across all pages of the website. This confirms that the HTML is properly structured and adheres to web standards.
-![HTML Validator](docs/html_validator.png)
+![HTML Validator](docs/%20html_validator.png)
 
 ### CSS Validator
 
 For CSS validation, I utilised the W3C CSS Validator. The CSS code was thoroughly checked, and no errors were found. This indicates that the CSS is correctly formatted and conforms to the established CSS standards.
-![CSS Validator](docs/css_validator.png)
+![CSS Validator](docs/%20css_validator.png)
 
 ## Bugs
 
-
 ## Lighthouse Testing
 
+I used Lighthouse to audit the performance and quality of this website.
+
+### Home Page
+
+![Lighthouse Testing - Home Page (Desktop) ](docs/lighthouse-home-desktop.png)
+![Lighthouse Testing - Home Page (Mobile) ](docs/lighthouse-home-mobile.png)
+
+### Recipe Page
+
+![Lighthouse Testing - Recipe Page (Desktop) ](docs/lighthouse-recipe-desktop.png)
+![Lighthouse Testing - Recipe Page (Mobile) ](docs/lighthouse-recipe-mobile.png)
+
+### Search Page
+
+![Lighthouse Testing - Search Page (Desktop) ](docs/lighthouse-search-desktop.png)
+![Lighthouse Testing - Search Page (Mobile) ](docs/lighthouse-search-mobile.png)
+
+### Create Recipe Page
+
+![Lighthouse Testing - Create Recipe Page (Desktop) ](docs/lighthouse-create-desktop.png)
+![Lighthouse Testing - Create Recipe Page (Mobile) ](docs/lighthouse-create-mobile.png)
+
+### My Recipes Page
+
+![Lighthouse Testing - My Recipes Page (Desktop) ](docs/lighthouse-my_recipe-desktop.pngg)
+![Lighthouse Testing - My Recipes Page (Mobile) ](docs/lighthouse-my_recipe-mobile.png)
 
 # Deployment
 
@@ -286,6 +383,7 @@ Visit `http://127.0.0.1:8000` in your browser to view the project locally.
 # Technologies Used
 
 ### Languages Used
+
 - HTML
 - CSS
 - JavaScript
@@ -293,6 +391,7 @@ Visit `http://127.0.0.1:8000` in your browser to view the project locally.
 - SQL
 
 ### Frameworks, Libraries & Tools
+
 - **Django**: Backend framework to manage data and user authentication.
 - **Django Allauth**: User authentication for login and account management.
 - **Bootstrap 5**: For responsive grid layout and components.
@@ -300,11 +399,34 @@ Visit `http://127.0.0.1:8000` in your browser to view the project locally.
 - **Git**: Version control for project management.
 - **GitHub**: To store the project's code and manage versions.
 - Heroku
+  [Accessible Color Matrix Tool](https://toolness.github.io/accessible-color-matrix/?n=Cal%20Poly%20Green&n=Engineering%20Orange&n=Chocolate%20Cosmos&n=Buff&n=Seashell&n=Jet&v=1F4F31&v=B13F26&v=5B122A&v=E49E6B&v=FBF1EE&v=333333)
 
-## Credits
+# Credits
 
-### Code
+## Code
 
-### Content
+- [Create a Recipe App in Django (CRUD functionality)](https://dev.to/domvacchiano/create-a-recipe-app-in-django-tutorial-5hh)
+- [Django User Profile Guide](https://www.devhandbook.com/django/user-profile/)
+- [Django Allauth User Profiles](https://www.codu.co/articles/easily-create-user-profiles-with-django-allauth-nsbnigtx)
+- [Handle Unchecked Checkboxes in Forms](https://stackoverflow.com/questions/1809494/post-unchecked-html-checkboxes)
+- [Django Search Tutorial](https://learndjango.com/tutorials/django-search-tutorial)
+- [Fixing Mixed Content Issues](https://web.dev/articles/fixing-mixed-content?hl=en)
 
-### Media
+## Content
+
+- Recipes created using ChatGPT
+
+## Media
+
+All photos used on the site are sourced from [Pexels](https://www.pexels.com/) and are free for commercial use with attribution where applicable:
+
+- Photo by [Lisa](https://www.pexels.com/photo/person-holding-sandwich-1321942/) — Person holding sandwich
+- Photo by [Diego Romero](https://www.pexels.com/photo/salad-with-bread-19087691/) — Salad with bread
+- Photo by [Jose Prada](https://www.pexels.com/photo/chocolate-fondant-with-ice-creams-20522414/) — Chocolate fondant with ice creams
+- Photo by [Polina Tankilevitch](https://www.pexels.com/photo/fresh-sliced-vegetables-served-with-sauce-in-black-bowl-on-tray-3872351/) — Fresh sliced vegetables in black bowl
+- Photo by [ROMAN ODINTSOV](https://www.pexels.com/photo/close-up-of-ice-cream-with-a-mango-5060371/) — Mango ice cream
+- Photo by [Alberta Studios](https://www.pexels.com/photo/meat-stout-with-lemon-9738981/) — Meat stout with lemon
+- Photo by [Karina Ustiuzhanina](https://www.pexels.com/photo/cooked-food-on-blue-ceramic-plate-13778610/) — Food on blue ceramic plate
+- Photo by [Dana Tentis](https://www.pexels.com/photo/round-frying-pan-with-eggs-691077/) — Eggs in frying pan
+- Photo by [Angele J](https://www.pexels.com/photo/cooked-pasta-with-sliced-tomatoes-and-green-leafy-128408/) — Pasta with tomatoes
+- Photo by [solod_sha](https://www.pexels.com/photo/pancakes-on-ceramic-plate-8605856/) — Pancakes on ceramic plate
