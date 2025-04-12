@@ -1,4 +1,4 @@
-# [ReelRatings](https://fork-and-flavours-72f7a7edee0f.herokuapp.com/)
+# [Fork & Flavours](https://fork-and-flavours-72f7a7edee0f.herokuapp.com/)
 
 Fork & Flavour is a recipe manager website that allows authorised users to create, view, edit, and delete recipes. It features a clean, modern, and playful design, offering a seamless user experience with easy navigation and an interactive recipe management system.
 
@@ -74,8 +74,8 @@ The colour scheme for Fork & Flavour reflects a modern, minimalist, and vibrant 
 
 For a clean and modern user interface, the following fonts have been chosen:
 
-- Heading Font: Montserrat — A bold, modern sans-serif font for headings and titles.
-- Body Font: Open Sans — A clean, sans-serif font for body text, offering readability and balance
+- Heading Font: Montserrat - A bold, modern sans-serif font for headings and titles.
+- Body Font: Open Sans - A clean, sans-serif font for body text, offering readability and balance
 
 ### Imagery
 
@@ -291,6 +291,11 @@ By implementing these features, Fork & Flavour strives to provide an inclusive a
 
 |                        Feature                         |                           Test case                            |                                                     Outcome                                                      |
 | :----------------------------------------------------: | :------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------: |
+|                      Logo Display                      |          Check if the logo is displayed on all pages           |                                Logo is visible at the top-left corner of the page                                |
+|                   Logo as Home Link                    |                Click on the logo from any page                 |                                       Logo takes the user to the home page                                       |
+|                     Navigation Bar                     |    Ensure that the navigation bar is visible and accessible    |                              Navigation links are properly displayed and functional                              |
+|                 Logged-Out Navigation                  |            View the navigation bar when logged out             |                               Navigation options include: Home, Login, and Sign Up                               |
+|                  Logged-In Navigation                  |             View the navigation bar when logged in             |                          Navigation options include: App Recipe, My Recipes, and Logout                          |
 |            Sign up with valid/invalid data             |       Submit sign-up form with valid and invalid inputs        |                       Account is created with valid data; errors shown for invalid inputs                        |
 |                   Log in and log out                   |       Log in with valid/invalid credentials and log out        |             Redirect to home page on success; show error on failure; log out redirects to home page              |
 |         Hero section content changes on login          |     Log in as a user and check the home page hero section      |           Heading changes to Welcome to Fork & Flavour, <user>! and displays the logged-in user's name           |
@@ -361,24 +366,31 @@ For CSS validation, I utilised the W3C CSS Validator. The CSS code was thoroughl
 ## Bugs
 
 ### Ingredients Section in Recipe Admin Form Not Positioned Correctly
+
 In the admin panel, when adding or editing a recipe, the ingredients section appears after the instructions, which is not the desired layout for recipes. Typically, ingredients should come before instructions for a more logical flow. This misplacement of the ingredients section affects the user experience by making the form less intuitive and harder to navigate. Admin users would have to scroll past the instructions to manage the ingredients, which goes against standard recipe form structures. To fix the issue, I customised the RecipeAdmin class by using the fieldsets attribute to reorder the fields. I created a new section for ingredients and ensured it appeared before the instructions. Additionally, I used RecipeIngredientInline to manage the ingredients directly within the recipe form. The issue was resolved, and the ingredients section now appears before the instructions in the recipe admin form, improving the form's organisation and user experience.
 
 ### Displaying Quantities in Decimal Instead of Readable Form
+
 Quantities for certain ingredients, such as "half a teaspoon of salt" or "2 slices of bread," were displayed in a decimal format, for example, "0.5 teaspoon" or "2.0 slices," making the display less readable and less intuitive. This issue affected the user experience on the site by showing ingredient quantities in an unnatural or awkward format, which could confuse users or make the recipe appear less user-friendly. Instead of seeing familiar measurements like "1/2 teaspoon" or "2 slices," users saw numeric values such as "0.5" or "2.0," making it harder to understand at a glance. The issue was addressed by implementing a format_quantity() method in the RecipeIngredient model. This method converts decimal quantities to fractions when appropriate (e.g., 0.5 to 1/2) and formats whole numbers correctly. It ensures the quantities are displayed in a more readable form, such as "1/2 teaspoon" or "2 slices." The bug was resolved, and ingredient quantities are now displayed in a more readable and familiar format, improving the overall user experience on the site.
 
 ### Issue with Media Files Not Loading on Heroku
+
 Media files uploaded through the Django app were not loading correctly after deploying to Heroku, resulting in 404 errors for images. The bug affected the site by preventing images from displaying, causing user-uploaded recipe images to fail loading when viewed in the browser. Since Heroku's file system is ephemeral, the media files were not accessible after the app was redeployed. To resolve the issue, I integrated Cloudinary for media storage. This involved installing the django-cloudinary-storage package, configuring Cloudinary settings in settings.py, and updating the ImageField in the model to use Cloudinary’s cloud storage. I also removed local media file handling for production. After deploying the changes, images were successfully uploaded and served through Cloudinary, solving the issue and ensuring the media files load correctly on Heroku.
 
 ### Inconsistent Instruction Formatting for Existing Recipes
-Existing recipes with instructions entered as plain text were not being displayed as ordered lists. When users previously created recipes, the instructions were entered as plain text with steps on separate lines. These instructions were displayed as plain text on the recipe detail page, leading to a disorganized appearance. New recipes, however, were formatted correctly using an ordered list, resulting in inconsistent presentation across the site. A data migration was created to process all existing recipe instructions, check if they were in plain text, and then convert them into an ordered list (<ol>). The migration split the instructions based on common delimiters (like numbers or line breaks), formatted them as list items (<li>), and saved the updated instructions to the database. The migration was successfully applied, and all previously created recipes now display their instructions as properly formatted ordered lists, ensuring consistency across the site.
+
+Existing recipes with instructions entered as plain text were not being displayed as ordered lists. When users previously created recipes, the instructions were entered as plain text with steps on separate lines. These instructions were displayed as plain text on the recipe detail page, leading to a disorganized appearance. New recipes, however, were formatted correctly using an ordered list, resulting in inconsistent presentation across the site. A data migration was created to process all existing recipe instructions, check if they were in plain text, and then convert them into an ordered list (`<ol>`). The migration split the instructions based on common delimiters (like numbers or line breaks), formatted them as list items (`<li>`), and saved the updated instructions to the database. The migration was successfully applied, and all previously created recipes now display their instructions as properly formatted ordered lists, ensuring consistency across the site.
 
 ### Ingredients and Instructions Not Auto-Populating in Recipe Update Form
+
 When updating a recipe, the ingredients and instructions fields do not auto-populate with the existing data. This prevents users from seeing and editing their previously added ingredients and instructions. The issue affects the recipe update page where users are unable to modify the ingredients and instructions after they’ve been saved. Instead, the fields appear empty, forcing users to re-enter all the information manually, even if it has already been provided. This leads to a poor user experience. The solution involved updating the RecipeUpdateView to pass the existing ingredients and instructions to the template. A get_context_data() method was added to fetch the related RecipeIngredient data, and the raw instructions were extracted for use in the text area. The ingredients were dynamically rendered in the form, and old ingredients were cleared before saving the new ones in form_valid(). The issue was successfully resolved. Ingredients and instructions now auto-populate in the update form, allowing users to easily modify existing recipes without re-entering all information. This improved the overall user experience on the site.
 
 ### Mixed Content Error on the Site
-The site was experiencing a mixed content issue, where some resources (images, stylesheets, scripts) were being loaded over an insecure HTTP connection, despite the page being loaded over HTTPS. This caused security warnings and prevented certain resources from being loaded properly in browsers.  This issue affects the site by causing browsers to block or restrict the loading of HTTP resources, leading to incomplete page rendering and security vulnerabilities. Users may also see mixed content warnings in their browsers. To resolve this, a <meta> tag with the Content-Security-Policy header was added to the <head> section of the HTML template. The tag used the upgrade-insecure-requests directive to automatically upgrade all insecure HTTP requests to HTTPS. The issue was resolved successfully. All previously insecure HTTP requests are now automatically upgraded to HTTPS, ensuring that the site’s content loads securely without mixed content errors. This also eliminates the security warnings displayed in browsers.
+
+The site was experiencing a mixed content issue, where some resources (images, stylesheets, scripts) were being loaded over an insecure HTTP connection, despite the page being loaded over HTTPS. This caused security warnings and prevented certain resources from being loaded properly in browsers. This issue affects the site by causing browsers to block or restrict the loading of HTTP resources, leading to incomplete page rendering and security vulnerabilities. Users may also see mixed content warnings in their browsers. To resolve this, a `<meta>` tag with the Content-Security-Policy header was added to the `<head>` section of the HTML template. The tag used the upgrade-insecure-requests directive to automatically upgrade all insecure HTTP requests to HTTPS. The issue was resolved successfully. All previously insecure HTTP requests are now automatically upgraded to HTTPS, ensuring that the site’s content loads securely without mixed content errors. This also eliminates the security warnings displayed in browsers.
 
 ### JavaScript Not Loading Due to Path Condition in base.html
+
 The JavaScript file (script.js) was not loading on the recipe form page due to a conditional check on the URL path in base.html. The script was only included if the path contained the string 'recipe_form', which caused the script to be missing on the page, preventing certain interactive elements, like the "Add Ingredient" button, from functioning. This bug prevented the JavaScript required to dynamically add and remove ingredient rows from being loaded, causing the "Add Ingredient" button to not work. As a result, users were unable to interact with the ingredients table on the recipe creation/edit form. I removed the conditional check that limited the script loading to pages containing 'recipe_form'. This ensured that the JavaScript file is now loaded on all pages, regardless of the URL. After removing the conditional, the JavaScript file was loaded properly, and the issue was resolved. The "Add Ingredient" button is now functioning as expected, allowing users to dynamically add ingredient rows.
 
 ## Lighthouse Testing
@@ -450,13 +462,13 @@ I used Lighthouse to audit the performance and quality of this website on deskto
 
 All photos used on the site are sourced from [Pexels](https://www.pexels.com/) and are free for commercial use with attribution where applicable:
 
-- Photo by [Lisa](https://www.pexels.com/photo/person-holding-sandwich-1321942/) — Avocado toast
-- Photo by [Diego Romero](https://www.pexels.com/photo/salad-with-bread-19087691/) — Chicken caesar salad
-- Photo by [Jose Prada](https://www.pexels.com/photo/chocolate-fondant-with-ice-creams-20522414/) — Chocolate lava cake
-- Photo by [Polina Tankilevitch](https://www.pexels.com/photo/fresh-sliced-vegetables-served-with-sauce-in-black-bowl-on-tray-3872351/) — Hummus and veggie sticks
-- Photo by [ROMAN ODINTSOV](https://www.pexels.com/photo/close-up-of-ice-cream-with-a-mango-5060371/) — Mango sorbet
-- Photo by [Alberta Studios](https://www.pexels.com/photo/meat-stout-with-lemon-9738981/) — Butter chicken
-- Photo by [Karina Ustiuzhanina](https://www.pexels.com/photo/cooked-food-on-blue-ceramic-plate-13778610/) — Falafel wrap
-- Photo by [Dana Tentis](https://www.pexels.com/photo/round-frying-pan-with-eggs-691077/) — Shakshuka
-- Photo by [Angele J](https://www.pexels.com/photo/cooked-pasta-with-sliced-tomatoes-and-green-leafy-128408/) — Spaghetti bolognese
-- Photo by [solod_sha](https://www.pexels.com/photo/pancakes-on-ceramic-plate-8605856/) — Classic pancakes
+- Photo by [Lisa](https://www.pexels.com/photo/person-holding-sandwich-1321942/) - Avocado toast
+- Photo by [Diego Romero](https://www.pexels.com/photo/salad-with-bread-19087691/) - Chicken caesar salad
+- Photo by [Jose Prada](https://www.pexels.com/photo/chocolate-fondant-with-ice-creams-20522414/) - Chocolate lava cake
+- Photo by [Polina Tankilevitch](https://www.pexels.com/photo/fresh-sliced-vegetables-served-with-sauce-in-black-bowl-on-tray-3872351/) - Hummus and veggie sticks
+- Photo by [ROMAN ODINTSOV](https://www.pexels.com/photo/close-up-of-ice-cream-with-a-mango-5060371/) - Mango sorbet
+- Photo by [Alberta Studios](https://www.pexels.com/photo/meat-stout-with-lemon-9738981/) - Butter chicken
+- Photo by [Karina Ustiuzhanina](https://www.pexels.com/photo/cooked-food-on-blue-ceramic-plate-13778610/) - Falafel wrap
+- Photo by [Dana Tentis](https://www.pexels.com/photo/round-frying-pan-with-eggs-691077/) - Shakshuka
+- Photo by [Angele J](https://www.pexels.com/photo/cooked-pasta-with-sliced-tomatoes-and-green-leafy-128408/) - Spaghetti bolognese
+- Photo by [solod_sha](https://www.pexels.com/photo/pancakes-on-ceramic-plate-8605856/) - Classic pancakes
