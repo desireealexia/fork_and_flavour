@@ -421,34 +421,32 @@ I used Lighthouse to audit the performance and quality of this website on deskto
 ## Local Deployment
 
 1. Clone the repository:
-  `git clone https://github.com/desireealexia/fork_and_flavour.git`
-  `cd fork-and-flavour`
+  ```
+  git clone https://github.com/desireealexia/fork_and_flavour.git
+  cd fork-and-flavour
+  ```
 2. Create and activate a virtual environment:
-  `python -m venv venv`
-  On Mac, usee `source venv/bin/activate`
-  On Windows, use `venv\Scripts\activate`
-3. Install the required dependencies:
-  `pip install -r requirements.txt`
-4. Set up the database:
-  `python manage.py migrate`
-5. Run the development server:
-  `python manage.py runserver`
-Your app should now be running locally at `http://127.0.0.1:8000/`.
+  ```
+  python -m venv venv
+  source venv/bin/activate # On Mac
+  venv\Scripts\activate # On Windows
+  ```
+3. Install the required dependencies: `pip install -r requirements.txt`
+4. Set up the database: `python manage.py migrate`
+5. Run the development server: `python manage.py runserver`
+
+  Your app should now be running locally at `http://127.0.0.1:8000/`.
 
 ## Heroku Deployment
 
 1. Install the Heroku CLI if you haven't already.
-2. Log in to Heroku:
-  `heroku login`
-3. Create a new Heroku app:
-  `heroku create`
-4. Push your code to Heroku:
-  `git push heroku main`
-5. Set up the Heroku database:
-  `heroku run python manage.py migrate`
-6. Open your deployed app:
-  `heroku open`
-Your app should now be live on Heroku!
+2. Log in to Heroku: `heroku login`
+3. Create a new Heroku app: `heroku create`
+4. Push your code to Heroku: `git push heroku main`
+5. Set up the Heroku database: `heroku run python manage.py migrate`
+6. Open your deployed app: `heroku open`
+
+  Your app should now be live on Heroku!
 
 # Technologies Used
 
