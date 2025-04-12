@@ -103,8 +103,9 @@ Profile Page (Scrapped): Originally intended for user profile details, this page
 - **User Authentication**  
   Fork & Flavour provides secure user authentication, allowing users to register for an account, log in, and log out safely. This ensures that users can access and manage their own recipe collections with ease.
 
-![Login](docs/log-in.png)
-![Sign Out](docs/sign-out.png)
+| Sign Up Page                 | Login Page                | Sign Out Page                  |
+| ---------------------------- | ------------------------- | ------------------------------ |
+| ![Sign up](docs/sign-up.png) | ![Login](docs/log-in.png) | ![Sign Out](docs/sign-out.png) |
 
 - **Recipe Creation**  
   Users can create new recipes by filling in details such as the recipe title, a list of ingredients, detailed preparation steps, and the option to upload images. This allows users to share their favourite dishes and cooking tips with the community.
@@ -145,20 +146,15 @@ Profile Page (Scrapped): Originally intended for user profile details, this page
 
 While the website already includes a solid set of features, we are planning to add even more functionality to improve the user experience:
 
-- **User Comments & Ratings**  
-  Users will soon be able to leave comments and rate recipes they’ve tried. This feature will help foster a sense of community, allowing users to share their experiences and offer feedback on different dishes.
+- **User Comments & Ratings:**Users will soon be able to leave comments and rate recipes they’ve tried. This feature will help foster a sense of community, allowing users to share their experiences and offer feedback on different dishes.
 
-- **Weekly Featured Recipes**  
-  Every week, a selection of standout recipes will be featured on the homepage. These recipes will be hand picked for their creativity, popularity, or seasonal relevance, giving users fresh inspiration each week.
+- **Weekly Featured Recipes:** Every week, a selection of standout recipes will be featured on the homepage. These recipes will be hand picked for their creativity, popularity, or seasonal relevance, giving users fresh inspiration each week.
 
-- **Shopping List Generator**  
-  Users will be able to generate a shopping list based on the ingredients of a selected recipe. This feature will help streamline the cooking process by allowing users to easily gather all the necessary ingredients for their chosen dishes.
+- **Shopping List Generator:** Users will be able to generate a shopping list based on the ingredients of a selected recipe. This feature will help streamline the cooking process by allowing users to easily gather all the necessary ingredients for their chosen dishes.
 
-- **Optional Ingredients**  
-  A new feature will allow users to mark certain ingredients as optional, making it easier to adjust recipes based on dietary preferences or ingredient availability.
+- **Optional Ingredients:** A new feature will allow users to mark certain ingredients as optional, making it easier to adjust recipes based on dietary preferences or ingredient availability.
 
-- **Favourite Recipes**  
-  Users will be able to save their favourite recipes to a personal collection for easy access. This feature will help users quickly find and revisit the recipes they love most.
+- **Favourite Recipes:** Users will be able to save their favourite recipes to a personal collection for easy access. This feature will help users quickly find and revisit the recipes they love most.
 
 # Database Schema
 
@@ -218,7 +214,7 @@ Links recipes to their ingredients, with quantities and measurement units.
 | ingredient  | integer   | Foreign Key → ingredient.id |
 | quantity    | decimal   | Not Null                    |
 | unit        | varchar   | Nullable                    |
-| is_optional | boolean   | Default: false              | 
+| is_optional | boolean   | Default: false              |
 
 **NOTE:** is_optional was originally intended to mark ingredients as optional, feature has been removed.
 
@@ -293,11 +289,42 @@ By implementing these features, Fork & Flavour strives to provide an inclusive a
 
 ## Features Testing
 
-| Feature | Test case | Outcome |
-| :-----: | :-------: | :-----: |
-|         |           |         |
-
-## User Stories Testing
+|                        Feature                         |                           Test case                            |                                                     Outcome                                                      |
+| :----------------------------------------------------: | :------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------: |
+|            Sign up with valid/invalid data             |       Submit sign-up form with valid and invalid inputs        |                       Account is created with valid data; errors shown for invalid inputs                        |
+|                   Log in and log out                   |       Log in with valid/invalid credentials and log out        |             Redirect to home page on success; show error on failure; log out redirects to home page              |
+|         Hero section content changes on login          |     Log in as a user and check the home page hero section      |           Heading changes to Welcome to Fork & Flavour, <user>! and displays the logged-in user's name           |
+|              Hero buttons change on login              |            Log in and view the hero section buttons            |        "Get Started" and "Login" buttons are replaced by "View My Recipes" button linking to recipe list         |
+|            Users can’t edit others’ recipes            |          Try to access another user's recipe edit URL          |                                                  Access denied                                                   |
+|      Create a new recipe with all required fields      |        Fill and submit the recipe form with valid data         |                                      Recipe is saved and shown on the site                                       |
+|                  Upload invalid image                  |           Try uploading a non-image file (e.g. .txt)           |                                            Validation prevents upload                                            |
+|                    Form validations                    |            Submit form with missing/invalid fields             |                                       Shows validation errors on the form                                        |
+|            Save recipe with status 'draft'             |        User creates a recipe and sets status to 'draft'        |                         Recipe is saved but only visible on the user’s "My Recipes" page                         |
+|          Save recipe with status 'published'           |      User creates a recipe and sets status to 'published'      |                       Recipe appears on the public recipe list and is visible to all users                       |
+|            Draft recipes hidden from public            |      Log in as a different user or view while logged out       |                Draft recipes from other users are not visible on the public list or detail pages                 |
+|            Published recipes visible to all            | View published recipes while logged out or as a different user |             Published recipes are accessible and displayed on the main recipe list and detail pages              |
+|                Status badge visibility                 |                 Log in and go to "My Recipes"                  |                   Each recipe displays a "Draft" or "Published" badge depending on its status                    |
+|               No badges on public pages                |                   View recipes on home page                    |                                            No status badges are shown                                            |
+|                     Edit a recipe                      |            Update title, ingredients, etc, and save            |                                    Changes are reflected in the recipe detail                                    |
+|                    Delete a recipe                     |                    Click delete and confirm                    |                                   Recipe is removed from the list and database                                   |
+|                View a recipe in detail                 |                  Click a recipe from the list                  |                               Navigates to recipe detail page displaying all info                                |
+|                Checkbox on ingredients                 |     Click checkboxes beside each ingredient while cooking      |                                          Checkbox gets marked/unmarked                                           |
+|                 Back button link logic                 |           Click each variation and observe behaviour           |      Each back button correctly navigates to its intended destination with proper query/state if applicable      |
+|  Back button: viewing someone else’s recipe directly   |     Log in, view another user’s recipe via homepage or URL     |                   Back button text is "Back to Main Page" and clicking it returns to homepage                    |
+|        Back button: viewing own recipe directly        |          Log in, go to "My Recipes" and click on one           |             Back button text is "Back to Your Recipes" and clicking it returns to "My Recipes" page              |
+| Back button: viewing someone else’s recipe from search |     Search for a recipe and click on someone else’s result     | Back button text is "Back to Search Results" and clicking it returns to search page with query and filter intact |
+|      Back button: viewing own recipe from search       |        Search for a recipe and click on your own result        |           Back button text is "Back to Your Recipes" and clicking it returns to the "My Recipes" page            |
+|           List all recipes on the home page            |                        Visit home page                         |                                All recipes are listed with titles and thumbnails                                 |
+|             Search for a recipe by keyword             |           Enter a search term like "egg" and submit            |                             Recipes with "egg" in the name or ingredients are shown                              |
+|               Filter search by category                |       Select a category (e.g., "Dinner") while searching       |                     Only recipes in the "Dinner" category matching the search term are shown                     |
+|            Search with no matching results             |        Enter a search term that doesn’t match anything         |                                  A message like "No recipes found" is displayed                                  |
+|               View a user’s own recipes                |                       Go to “My Recipes”                       |                               Only recipes created by the logged-in user are shown                               |
+| Buttons, links, and forms are clickable and functional |                     Click all UI elements                      |                                  All expected actions happen with no dead links                                  |
+|                       Pagination                       |               View more than one page of recipes               |                                  Recipes are split across pages with navigation                                  |
+|                   SEO-friendly URLs                    |                    View recipe detail page                     |                            URL includes readable slug (e.g., /recipes/chocolate-cake)                            |
+|                     Share recipes                      |        Click share button (copy link, share to social)         |                                Share options open and links copy/share correctly                                 |
+|                   Responsive design                    |            Resize browser window or open on mobile             |                                    Layout adjusts and content is still usable                                    |
+|                  Accessibility basics                  |             Navigate with keyboard / screen reader             |                                All buttons/links can be accessed without a mouse                                 |
 
 ## Browser Compatibility
 
@@ -332,6 +359,27 @@ For CSS validation, I utilised the W3C CSS Validator. The CSS code was thoroughl
 ![CSS Validator](docs/%20css_validator.png)
 
 ## Bugs
+
+### Ingredients Section in Recipe Admin Form Not Positioned Correctly
+In the admin panel, when adding or editing a recipe, the ingredients section appears after the instructions, which is not the desired layout for recipes. Typically, ingredients should come before instructions for a more logical flow. This misplacement of the ingredients section affects the user experience by making the form less intuitive and harder to navigate. Admin users would have to scroll past the instructions to manage the ingredients, which goes against standard recipe form structures. To fix the issue, I customised the RecipeAdmin class by using the fieldsets attribute to reorder the fields. I created a new section for ingredients and ensured it appeared before the instructions. Additionally, I used RecipeIngredientInline to manage the ingredients directly within the recipe form. The issue was resolved, and the ingredients section now appears before the instructions in the recipe admin form, improving the form's organisation and user experience.
+
+### Displaying Quantities in Decimal Instead of Readable Form
+Quantities for certain ingredients, such as "half a teaspoon of salt" or "2 slices of bread," were displayed in a decimal format, for example, "0.5 teaspoon" or "2.0 slices," making the display less readable and less intuitive. This issue affected the user experience on the site by showing ingredient quantities in an unnatural or awkward format, which could confuse users or make the recipe appear less user-friendly. Instead of seeing familiar measurements like "1/2 teaspoon" or "2 slices," users saw numeric values such as "0.5" or "2.0," making it harder to understand at a glance. The issue was addressed by implementing a format_quantity() method in the RecipeIngredient model. This method converts decimal quantities to fractions when appropriate (e.g., 0.5 to 1/2) and formats whole numbers correctly. It ensures the quantities are displayed in a more readable form, such as "1/2 teaspoon" or "2 slices." The bug was resolved, and ingredient quantities are now displayed in a more readable and familiar format, improving the overall user experience on the site.
+
+### Issue with Media Files Not Loading on Heroku
+Media files uploaded through the Django app were not loading correctly after deploying to Heroku, resulting in 404 errors for images. The bug affected the site by preventing images from displaying, causing user-uploaded recipe images to fail loading when viewed in the browser. Since Heroku's file system is ephemeral, the media files were not accessible after the app was redeployed. To resolve the issue, I integrated Cloudinary for media storage. This involved installing the django-cloudinary-storage package, configuring Cloudinary settings in settings.py, and updating the ImageField in the model to use Cloudinary’s cloud storage. I also removed local media file handling for production. After deploying the changes, images were successfully uploaded and served through Cloudinary, solving the issue and ensuring the media files load correctly on Heroku.
+
+### Inconsistent Instruction Formatting for Existing Recipes
+Existing recipes with instructions entered as plain text were not being displayed as ordered lists. When users previously created recipes, the instructions were entered as plain text with steps on separate lines. These instructions were displayed as plain text on the recipe detail page, leading to a disorganized appearance. New recipes, however, were formatted correctly using an ordered list, resulting in inconsistent presentation across the site. A data migration was created to process all existing recipe instructions, check if they were in plain text, and then convert them into an ordered list (<ol>). The migration split the instructions based on common delimiters (like numbers or line breaks), formatted them as list items (<li>), and saved the updated instructions to the database. The migration was successfully applied, and all previously created recipes now display their instructions as properly formatted ordered lists, ensuring consistency across the site.
+
+### Ingredients and Instructions Not Auto-Populating in Recipe Update Form
+When updating a recipe, the ingredients and instructions fields do not auto-populate with the existing data. This prevents users from seeing and editing their previously added ingredients and instructions. The issue affects the recipe update page where users are unable to modify the ingredients and instructions after they’ve been saved. Instead, the fields appear empty, forcing users to re-enter all the information manually, even if it has already been provided. This leads to a poor user experience. The solution involved updating the RecipeUpdateView to pass the existing ingredients and instructions to the template. A get_context_data() method was added to fetch the related RecipeIngredient data, and the raw instructions were extracted for use in the text area. The ingredients were dynamically rendered in the form, and old ingredients were cleared before saving the new ones in form_valid(). The issue was successfully resolved. Ingredients and instructions now auto-populate in the update form, allowing users to easily modify existing recipes without re-entering all information. This improved the overall user experience on the site.
+
+### Mixed Content Error on the Site
+The site was experiencing a mixed content issue, where some resources (images, stylesheets, scripts) were being loaded over an insecure HTTP connection, despite the page being loaded over HTTPS. This caused security warnings and prevented certain resources from being loaded properly in browsers.  This issue affects the site by causing browsers to block or restrict the loading of HTTP resources, leading to incomplete page rendering and security vulnerabilities. Users may also see mixed content warnings in their browsers. To resolve this, a <meta> tag with the Content-Security-Policy header was added to the <head> section of the HTML template. The tag used the upgrade-insecure-requests directive to automatically upgrade all insecure HTTP requests to HTTPS. The issue was resolved successfully. All previously insecure HTTP requests are now automatically upgraded to HTTPS, ensuring that the site’s content loads securely without mixed content errors. This also eliminates the security warnings displayed in browsers.
+
+### JavaScript Not Loading Due to Path Condition in base.html
+The JavaScript file (script.js) was not loading on the recipe form page due to a conditional check on the URL path in base.html. The script was only included if the path contained the string 'recipe_form', which caused the script to be missing on the page, preventing certain interactive elements, like the "Add Ingredient" button, from functioning. This bug prevented the JavaScript required to dynamically add and remove ingredient rows from being loaded, causing the "Add Ingredient" button to not work. As a result, users were unable to interact with the ingredients table on the recipe creation/edit form. I removed the conditional check that limited the script loading to pages containing 'recipe_form'. This ensured that the JavaScript file is now loaded on all pages, regardless of the URL. After removing the conditional, the JavaScript file was loaded properly, and the issue was resolved. The "Add Ingredient" button is now functioning as expected, allowing users to dynamically add ingredient rows.
 
 ## Lighthouse Testing
 
@@ -369,15 +417,19 @@ I used Lighthouse to audit the performance and quality of this website on deskto
 - HTML/CSS
 - JavaScript
 - Python
+- SQL
 
 ### Frameworks, Libraries & Tools
 
-- Django with Django Allauth,  SummerNote and Crispy Forms
+- Django with Django Allauth, SummerNote and Crispy Forms
 - PostgreSQL Database
 - Bootstrap
 - Font Awesome
 - Git/GitHub
 - Heroku (deployment)
+- Cloudinary
+- Figma
+- Canva
 
 # Credits
 
