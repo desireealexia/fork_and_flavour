@@ -421,7 +421,6 @@ I used Lighthouse to audit the performance and quality of this website on deskto
 ## Local Deployment
 
 1. Clone the repository:
-  ```bash
   `git clone https://github.com/desireealexia/fork_and_flavour.git`
   `cd fork-and-flavour`
 2. Create and activate a virtual environment:
